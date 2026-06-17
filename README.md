@@ -1,5 +1,8 @@
 # Hepatitis A spatial epidemiology in South Korea (2020–2024)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20725490.svg)](https://doi.org/10.5281/zenodo.20725490)
+
+
 Reproducible analysis code for:
 
 > **The sanitation paradox and groundwater vulnerability in the spatial distribution of hepatitis A virus foodborne disease in South Korea, 2020–2024.**
@@ -31,4 +34,4 @@ Rscript HAV_spatial_reproducible.R
 Annual district-level HAV notifications are released by the **Korea Disease Control and Prevention Agency (KDCA)** Infectious Disease Portal (https://dportal.kdca.go.kr). Covariates are from **KOSIS** and the open-data portals of the relevant Korean ministries (K-water, NIER, MOLIT, MOIS, HIRA, NHIS). **Raw/restricted inputs are not redistributed here**; place them under `./data/` and set `BASE_IV`. Only aggregated district-year counts are used — **no personally identifiable information**.
 
 ## License
-MIT (see `LICENSE`). Archived on Zenodo (concept DOI to be added on release).
+MIT (see `LICENSE`). Archived on Zenodo — concept DOI (all versions): https://doi.org/10.5281/zenodo.20725490
