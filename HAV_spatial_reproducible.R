@@ -130,6 +130,8 @@ cat(sprintf("# HAV v7.12 NB (v7.11 + 파생 개변수 치환)\n\n- TS: %s\n- 전
 clean_region <- function(df) df %>% mutate(
   region=str_replace_all(as.character(region),"\\s+",""),
   region=if_else(region=="인천시미추홀구","인천시남구",region),
+  region=if_else(region=="세종시","세종시세종시",region),          # harmonise Sejong key (covariate files use 세종시)
+  region=if_else(region=="경상북도군위군","대구시군위군",region),   # Gunwi 2023 Gyeongbuk->Daegu boundary harmonise
   year=as.integer(year)) %>% filter(year>=YEAR_START, year<=YEAR_END)
 read_csv_safe <- function(fp){raw<-NULL
   for(enc in c("UTF-8","UTF-8-BOM","CP949","EUC-KR")){

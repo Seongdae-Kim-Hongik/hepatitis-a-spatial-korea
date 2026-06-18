@@ -19,7 +19,7 @@ A Bayesian negative-binomial disease-mapping analysis of district-level hepatiti
 - Alternative-specification **robustness** (exclude 2020–2021; COVID-era indicator; drop inpatient cost; swine/poultry) (Table S8)
 
 ## Reproduced headline numbers
-- Principal M6: DIC ≈ 5,699; residual Moran's I = +0.05 (p ≈ 0.09)
+- Principal M6 (N = 1,112 district-years): DIC ≈ 5,716; residual Moran's I = +0.05 (p ≈ 0.09)
 - 9 credible covariates incl. water-supply coverage (IRR 1.07), household groundwater wells (1.06), forest (0.87), inpatient cost (1.21)
 
 > **INLA version note:** the manuscript used **R-INLA 23.12.16**. Pin this version to match the DIC exactly; newer INLA may shift DIC by ~3 points (e.g. 5,696 vs 5,699) without changing any incidence rate ratio, direction or credibility.
@@ -35,3 +35,6 @@ Annual district-level HAV notifications are released by the **Korea Disease Cont
 
 ## License
 MIT (see `LICENSE`). Archived on Zenodo — concept DOI (all versions): https://doi.org/10.5281/zenodo.20725490
+
+## Data correction (v1.1.0)
+Region keys are harmonised in `clean_region` (`세종시`→`세종시세종시`; `경상북도군위군`→`대구시군위군`, the 2023 Gyeongbuk→Daegu transfer) so that the single-person-elderly and other administrative covariates join for Sejong and pre-2023 Gunwi. This recovers district-years that an earlier version dropped by listwise deletion (analytic sample 1,107 → 1,112). All credible associations and the bilevel conclusion are unchanged.
