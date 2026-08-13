@@ -1,11 +1,26 @@
 {
-  "title": "The sanitation paradox and groundwater vulnerability: environmental determinants of hepatitis A virus incidence across South Korean districts, 2020–2024 (analysis code)",
+  "title": "Environmental determinants of hepatitis A virus incidence across South Korean districts, 2020–2024: the sanitation paradox and groundwater vulnerability (analysis code)",
   "upload_type": "software",
   "description": "Reproducible R/INLA code for a Bayesian spatiotemporal (NB + BYM + RW1 + Type I space-time) analysis of district-level hepatitis A virus incidence across 223 South Korean districts, 2020-2024. Reproduces the principal model, model comparison, eight-graph neighbourhood sensitivity, BYM2 prior sensitivity, Moran's I, Getis-Ord Gi*, and alternative-specification robustness checks reported in the manuscript.",
   "license": "MIT",
   "creators": [
-    {"name": "Kim, Seongdae", "affiliation": "Hongik University; Korea University Graduate School, Seoul, Republic of Korea"},
-    {"name": "Chun, Byung Chul", "affiliation": "Korea University College of Medicine, Seoul, Republic of Korea"}
+    {
+      "name": "Kim, Seongdae",
+      "affiliation": "Hongik University; Korea University Graduate School, Seoul, Republic of Korea"
+    },
+    {
+      "name": "Chun, Byung Chul",
+      "affiliation": "Korea University College of Medicine, Seoul, Republic of Korea"
+    }
   ],
-  "keywords": ["hepatitis A virus","spatial epidemiology","Bayesian hierarchical model","Besag-York-Mollie","INLA","sanitation paradox","groundwater","Republic of Korea"]
+  "keywords": [
+    "hepatitis A virus",
+    "spatial epidemiology",
+    "Bayesian hierarchical model",
+    "Besag-York-Mollie",
+    "INLA",
+    "sanitation paradox",
+    "groundwater",
+    "Republic of Korea"
+  ]
 }

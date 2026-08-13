@@ -5,8 +5,8 @@
 
 Reproducible analysis code for:
 
-> **The sanitation paradox and groundwater vulnerability in the spatial distribution of hepatitis A virus foodborne disease in South Korea, 2020–2024.**
-> Seongdae Kim, Byung Chul Chun. (Target journal: *Water Research*.)
+> **Environmental determinants of hepatitis A virus incidence across South Korean districts, 2020–2024: the sanitation paradox and groundwater vulnerability.**
+> Seongdae Kim, Byung Chul Chun. (Submitted to the *Journal of Infection and Public Health*.)
 
 ## What this does
 A Bayesian negative-binomial disease-mapping analysis of district-level hepatitis A virus (HAV) incidence across 223 contiguous South Korean districts over 1,112 district-years (2020–2024), fitted with **R-INLA**:
