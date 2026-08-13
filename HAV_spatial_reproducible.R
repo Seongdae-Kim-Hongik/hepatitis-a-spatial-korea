@@ -1,6 +1,6 @@
 # =============================================================================
 # Reproducible analysis code
-# "Environmental determinants of hepatitis A virus incidence across South
+# "Environmental determinants of hepatitis A incidence across South
 #  Korean districts, 2020-2024: the sanitation paradox and groundwater
 #  vulnerability"
 # Seongdae Kim, Byung Chul Chun.
