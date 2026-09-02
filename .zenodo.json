@@ -1,5 +1,5 @@
 {
-  "title": "Environmental determinants of hepatitis A incidence across South Korean districts, 2020–2024: the sanitation paradox and groundwater vulnerability (analysis code)",
+  "title": "Sanitation infrastructure and environmental vulnerability as determinants of hepatitis A incidence in South Korea: a nationwide Bayesian spatiotemporal analysis, 2020–2024 (analysis code)",
   "upload_type": "software",
   "description": "Reproducible R/INLA code for a Bayesian spatiotemporal (NB + BYM + RW1 + Type I space-time) analysis of district-level hepatitis A virus incidence across 223 South Korean districts, 2020-2024. Reproduces the principal model, model comparison, eight-graph neighbourhood sensitivity, BYM2 prior sensitivity, Moran's I, Getis-Ord Gi*, and alternative-specification robustness checks reported in the manuscript.",
   "license": "MIT",
@@ -19,7 +19,8 @@
     "Bayesian hierarchical model",
     "Besag-York-Mollie",
     "INLA",
-    "sanitation paradox",
+    "sanitation infrastructure",
+    "environmental determinants",
     "groundwater",
     "Republic of Korea"
   ]

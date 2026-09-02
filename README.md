@@ -5,8 +5,8 @@
 
 Reproducible analysis code for:
 
-> **Environmental determinants of hepatitis A incidence across South Korean districts, 2020–2024: the sanitation paradox and groundwater vulnerability.**
-> Seongdae Kim, Byung Chul Chun. (Submitted to the *Journal of Infection and Public Health*.)
+> **Sanitation infrastructure and environmental vulnerability as determinants of hepatitis A incidence in South Korea: a nationwide Bayesian spatiotemporal analysis, 2020–2024.**
+> Seongdae Kim, Byung Chul Chun. (Submitted to *Environment International*.)
 
 ## What this does
 A Bayesian negative-binomial disease-mapping analysis of district-level hepatitis A virus (HAV) incidence across 223 contiguous South Korean districts over 1,112 district-years (2020–2024), fitted with **R-INLA**:

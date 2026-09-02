@@ -1,10 +1,10 @@
 # =============================================================================
 # Reproducible analysis code
-# "Environmental determinants of hepatitis A incidence across South
-#  Korean districts, 2020-2024: the sanitation paradox and groundwater
-#  vulnerability"
+# "Sanitation infrastructure and environmental vulnerability as determinants
+#  of hepatitis A incidence in South Korea: a nationwide Bayesian
+#  spatiotemporal analysis, 2020-2024"
 # Seongdae Kim, Byung Chul Chun.
-# Submitted to the Journal of Infection and Public Health (Elsevier).
+# Submitted to Environment International (Elsevier).
 #
 # Model: Bayesian negative-binomial disease mapping with a Besag-York-Mollie
 #  (BYM) convolution + first-order temporal random walk (RW1) + Knorr-Held
