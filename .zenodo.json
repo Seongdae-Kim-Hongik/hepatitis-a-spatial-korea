@@ -1,12 +1,15 @@
 {
-  "title": "Sanitation infrastructure and environmental vulnerability as determinants of hepatitis A incidence in South Korea: a nationwide Bayesian spatiotemporal analysis, 2020–2024 (analysis code)",
+  "title": "Piped water, private wells, and forest cover shape hepatitis A geography in South Korea (analysis code and compiled data, v2.0.0)",
   "upload_type": "software",
-  "description": "Reproducible R/INLA code for a Bayesian spatiotemporal (NB + BYM + RW1 + Type I space-time) analysis of district-level hepatitis A virus incidence across 223 South Korean districts, 2020-2024. Reproduces the principal model, model comparison, eight-graph neighbourhood sensitivity, BYM2 prior sensitivity, Moran's I, Getis-Ord Gi*, and alternative-specification robustness checks reported in the manuscript.",
+  "version": "2.0.0",
+  "publication_date": "2026-09-05",
+  "description": "Corrected, submission-aligned reproducibility package for a Bayesian spatiotemporal analysis of district-level hepatitis A incidence across 223 South Korean districts, 2020-2024 (negative binomial, Besag-York-Mollie convolution + RW1 + Knorr-Held Type I interaction, fitted with R-INLA). Contains the R script for the final 27-covariate model, the compiled 1,112-row district-year analytic dataset, principal-model incidence-rate ratios, model-comparison and spatial-residual diagnostics, CPO/PIT values, a VIF audit, run logs and R/INLA session information. The final covariate specification was developed exploratorily; the reported credible associations are hypothesis-generating. Supersedes v1.x, which carried the pre-correction script and no compiled data.",
   "license": "MIT",
   "creators": [
     {
       "name": "Kim, Seongdae",
-      "affiliation": "Hongik University; Korea University Graduate School, Seoul, Republic of Korea"
+      "affiliation": "Hongik University; Korea University Graduate School, Seoul, Republic of Korea",
+      "orcid": "0000-0002-1525-0091"
     },
     {
       "name": "Chun, Byung Chul",
@@ -14,14 +17,15 @@
     }
   ],
   "keywords": [
-    "hepatitis A virus",
+    "hepatitis A",
     "spatial epidemiology",
-    "Bayesian hierarchical model",
+    "Bayesian spatial model",
     "Besag-York-Mollie",
     "INLA",
-    "sanitation infrastructure",
-    "environmental determinants",
     "groundwater",
-    "Republic of Korea"
+    "water infrastructure",
+    "land cover",
+    "sanitation",
+    "South Korea"
   ]
 }

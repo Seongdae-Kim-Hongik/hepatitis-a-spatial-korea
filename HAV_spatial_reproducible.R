@@ -1,46 +1,53 @@
 # =============================================================================
-# Reproducible analysis code
-# "Sanitation infrastructure and environmental vulnerability as determinants
-#  of hepatitis A incidence in South Korea: a nationwide Bayesian
-#  spatiotemporal analysis, 2020-2024"
+# Reproducible analysis code (v2.0.0, corrected reproducibility release)
+# "Piped water, private wells, and forest cover shape hepatitis A geography
+#  in South Korea"
 # Seongdae Kim, Byung Chul Chun.
-# Submitted to Environment International (Elsevier).
+# Submitted to Frontiers in Ecology and the Environment (ESA/Wiley) as a
+# Research Communication. Earlier versions of this repository accompanied the
+# same analysis under previous working titles.
 #
 # Model: Bayesian negative-binomial disease mapping with a Besag-York-Mollie
 #  (BYM) convolution + first-order temporal random walk (RW1) + Knorr-Held
 #  Type I space-time interaction, fitted by INLA (R-INLA). 223 contiguous
-#  districts, 1,112 district-years (2020-2024), 27 pre-specified covariates.
+#  districts, 1,112 district-years (2020-2024), 27 final covariates.
 #
-# This script fits exactly the covariate specification reported in the paper:
-#  the 27 covariates and their functional forms are PRE-SPECIFIED (Table S5)
-#  and entered directly. There is no data-driven model search, stepwise
-#  selection, or objective tuned to obtain a target result; every covariate
-#  is forced into the model with its declared transform, and all reported
-#  quantities are read off the resulting fits.
+# This script fits the final 27-covariate specification reported in the paper.
+# The archived development log shows that variable/form selection was
+# exploratory and partly outcome/direction-informed. It must therefore not be
+# described as prospectively pre-specified. This script is a reproducibility
+# implementation of the selected final model, not an independent confirmation
+# of the variable-selection procedure; the reported credible associations are
+# hypothesis-generating.
 #
-# Reproduces:
+# Reproduces the principal model and core diagnostics directly. Extended
+# graph and alternative-specification checks are optional because they require
+# several additional INLA fits.
 #  * Principal model M6  (DIC 5,716.29; WAIC 5,729.22; residual Moran's I
 #    +0.053, p = 0.090)
-#  * Table 2  — 27 covariate incidence-rate ratios (9 credible)
-#  * Table S1 — model comparison M1-M6
-#  * Table S2 — 8-graph neighbourhood sensitivity
-#  * Tables S3/S7 — BYM2 reparametrisation and prior sensitivity (phi ~ 0.96)
-#  * Table S4 — Global Moran's I (pre/post)
-#  * Figure S2 — Getis-Ord Gi* local clustering
-#  * Table S8 — alternative-specification robustness checks
+#  * 27 covariate incidence-rate ratios, 9 credible
+#    (Frontiers: Table 1 and Appendix S1: Table S2)
+#  * Model comparison M1-M6 and global Moran's I (Appendix S1: Table S3a)
+#  * 8-graph neighbourhood sensitivity (Queen/Rook + k-NN, k = 2-7)
+#  * Getis-Ord Gi* local clustering
+#  * Alternative-specification robustness checks (Appendix S1: Table S3b)
 #
-# Software: R 4.x with R-INLA. The manuscript fits used R-INLA 24.x; newer
-#  INLA versions may shift the DIC/WAIC by a few points without changing any
-#  incidence-rate ratio or credible-interval conclusion.
+# Software: R 4.x with R-INLA. The committed results/ directory records a
+#  verified principal-model run under R 4.6.0 and INLA 25.10.19; earlier fits
+#  used R-INLA 24.x. Newer INLA versions may shift the DIC/WAIC by a few
+#  points without changing any incidence-rate ratio or credible-interval
+#  conclusion.
 # Run:  Rscript HAV_spatial_reproducible.R
 #
 # DATA AVAILABILITY: annual district-level HAV notifications are released by the
 #  Korea Disease Control and Prevention Agency (KDCA) Infectious Disease Portal
 #  (https://dportal.kdca.go.kr); covariates come from KOSIS and the open-data
-#  portals of the relevant Korean ministries. Restricted/raw inputs are NOT
-#  redistributed here. Place the input files under ./data (or set the
-#  HAV_DATA_DIR environment variable) before running. No personally
-#  identifiable information is used (aggregated district-year counts only).
+#  portals of the relevant Korean ministries. Raw source extracts are NOT
+#  redistributed here; the compiled 1,112-row district-year analytic table is
+#  provided in results/analysis_dataset_compiled.csv. Place the raw input
+#  files under ./data (or set the HAV_DATA_DIR environment variable) to rebuild
+#  it from source. No personally identifiable information is used
+#  (aggregated district-year counts only).
 # License: MIT (see LICENSE).
 # =============================================================================
 
@@ -77,9 +84,16 @@ MIN_OBS      <- 20             # minimum non-missing district-years to use a cov
 
 # Input directory: ./data by default, override with HAV_DATA_DIR.
 BASE_IV <- Sys.getenv("HAV_DATA_DIR", unset = file.path(getwd(), "data"))
-PATH_DISEASE   <- file.path(BASE_IV, "foodborne_final.csv")        # district-year disease counts
-PATH_HEALTH_PQ <- file.path(BASE_IV, "health_indicators.parquet")  # community-health covariates
-PATH_SHP       <- file.path(BASE_IV, "districts.shp")              # district polygons (EPSG:5179)
+OUT_DIR <- Sys.getenv("HAV_OUTPUT_DIR", unset = file.path(getwd(), "results"))
+dir.create(OUT_DIR, recursive = TRUE, showWarnings = FALSE)
+pick_input <- function(...) {
+  candidates <- file.path(BASE_IV, c(...))
+  hit <- candidates[file.exists(candidates)]
+  if (!length(hit)) candidates[1] else hit[1]
+}
+PATH_DISEASE   <- pick_input("foodborne_final.csv", "식중독최종.csv")
+PATH_HEALTH_PQ <- pick_input("health_indicators.parquet", "국민건강결과_최종.parquet")
+PATH_SHP       <- pick_input("districts.shp", "final.shp")
 if (!file.exists(PATH_DISEASE))
   stop("Input data not found under '", BASE_IV,
        "'. Set HAV_DATA_DIR to the folder holding the KDCA/KOSIS inputs.")
@@ -117,7 +131,13 @@ fill_missing_year <- function(df, tgt, src) {
   if (!"region" %in% names(df) || !"year" %in% names(df)) return(df)
   nv <- setdiff(names(df)[sapply(df, is.numeric)], "year")
   if (length(nv) == 0 || !src %in% unique(df$year)) return(df)
-  ds <- df %>% filter(year == src); dt <- df %>% filter(year == tgt)
+  # Collapse duplicate region-year rows before filling. The original helper
+  # could create an accidental many-to-many expansion for source tables with
+  # multiple records per district.
+  ds <- df %>% filter(year == src) %>% group_by(region, year) %>%
+    summarise(across(all_of(nv), ~mean(.x, na.rm = TRUE)), .groups = "drop")
+  dt <- df %>% filter(year == tgt) %>% group_by(region, year) %>%
+    summarise(across(all_of(nv), ~mean(.x, na.rm = TRUE)), .groups = "drop")
   df_f <- ds %>% mutate(year = as.integer(tgt))
   if (nrow(dt) > 0) {
     df_f <- df_f %>%
@@ -165,18 +185,19 @@ tryCatch({
 }, error = function(e) cat(sprintf("  [warn] parquet: %s\n", e$message)))
 
 # (B) covariates supplied as individual CSV extracts. Only the columns used by
-#     the pre-specified model are kept; carry-forward fills biennial gaps.
+#     the final reported model are kept; carry-forward fills biennial gaps.
 selected <- list(
-  "groundwater_household.csv"   = c("가정용_개소수", "간이상수도용_개소수"),
-  "groundwater_quality.csv"     = c("검사합계"),
-  "sewer_repair.csv"            = c("개·보수관로_부분보수(개소)_계"),
-  "sewerage_coverage.csv"       = c("공공하수처리구역인구보급률(%)", "하수처리구역외_정화조인구", "총면적(㎢)"),
-  "livestock.csv"               = c("농가수(호)_젖소", "농가수(호)_돼지", "농가수(호)_가금"),
-  "elderly_singleperson.csv"    = c("1인가구_80~84세"),
-  "land_use.csv"                = c("답", "임야", "대"),
-  "shellfish.csv"               = c("굴_자연채묘 생산량(kg)"))
+  "groundwater_household.csv|생활용지하수이용현황_전처리.csv" = c("가정용_개소수", "간이상수도용_개소수"),
+  "groundwater_quality.csv|merged_지하수수질.csv" = c("검사합계"),
+  "sewer_repair.csv|merged_하수관로개보수.csv" = c("개·보수관로_부분보수(개소)_계"),
+  "sewerage_coverage.csv|merged_하수도보급률.csv" = c("공공하수처리구역인구보급률(%)", "하수처리구역외_정화조인구", "총면적(㎢)"),
+  "livestock.csv|가축두수_전처리.csv" = c("농가수(호)_젖소", "농가수(호)_돼지", "농가수(호)_가금"),
+  "elderly_singleperson.csv|고령인구_전처리.csv" = c("1인가구_80~84세"),
+  "land_use.csv|국토이용현황_전처리_수정.csv" = c("답", "임야", "대"),
+  "shellfish.csv|어패류_패류_전처리.csv" = c("굴_자연채묘 생산량(kg)"))
 for (fn in names(selected)) {
-  fp <- file.path(BASE_IV, fn); if (!file.exists(fp)) next
+  aliases <- strsplit(fn, "|", fixed = TRUE)[[1]]
+  fp <- pick_input(aliases); if (!file.exists(fp)) next
   raw <- read_csv_safe(fp); if (is.null(raw)) next
   raw <- raw %>% clean_region() %>% apply_cf()
   av <- intersect(selected[[fn]], names(raw)); if (length(av) == 0) next
@@ -184,14 +205,14 @@ for (fn in names(selected)) {
   agg <- raw %>% group_by(region, year) %>%
     summarise(across(all_of(av), ~mean(.x, na.rm = TRUE)), .groups = "drop")
   cor_merged <- cor_merged %>% left_join(agg, by = c("region", "year"))
-  cat(sprintf("  csv %-30s %d variables\n", fn, length(av)))
+  cat(sprintf("  csv %-30s %d variables\n", basename(fp), length(av)))
 }
 cat(sprintf("  merged: %d rows x %d columns\n", nrow(cor_merged), ncol(cor_merged)))
 
 # ---------------------------------------------------------------------------
-# [4] Pre-specified covariate set (27) and functional forms (Table S5)
+# [4] Final selected covariate set (27) and functional forms (Table S5)
 # ---------------------------------------------------------------------------
-# Each covariate enters with a single, pre-declared functional form:
+# Each covariate enters here with the final reported functional form:
 #   raw    = standardised continuous
 #   log1p  = log(1 + x), standardised
 #   binary = above median (or non-zero for zero-inflated counts)
@@ -224,7 +245,7 @@ TV <- data.frame(
   forced = c("", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
     "", "", "", "", "", "Y", "Y", "Y", "Y", "", "", ""),
   stringsAsFactors = FALSE)
-cat(sprintf("\n## [4] Pre-specified covariates: %d (forced confounders: %d)\n",
+cat(sprintf("\n## [4] Final selected covariates: %d (forced confounders: %d)\n",
             nrow(TV), sum(TV$forced == "Y")))
 
 # District polygons and contiguity graph (principal neighbourhood structure).
@@ -239,12 +260,12 @@ shp_main <- shp %>% filter(!region %in% islands)
 nb_obj <- poly2nb(shp_main, snap = 0.01); iso <- which(card(nb_obj) == 0)
 if (length(iso) > 0) { shp_main <- shp_main[-iso, ]; nb_obj <- poly2nb(shp_main, snap = 0.01) }
 graph_file <- tempfile(fileext = ".graph")
-nb2INLA(nb_obj, file = graph_file); g_main <- inla.read.graph(graph_file)
+nb2INLA(graph_file, nb_obj); g_main <- inla.read.graph(graph_file)
 nb_w <- nb2listw(nb_obj, style = "W", zero.policy = TRUE)
 cat(sprintf("  districts in spatial model: %d\n", nrow(shp_main)))
 
 # ---------------------------------------------------------------------------
-# [5] Build the design matrix from the pre-specified forms
+# [5] Build the design matrix from the final reported forms
 # ---------------------------------------------------------------------------
 # apply_form() materialises one covariate in its declared functional form.
 # `hz` flags zero-inflated counts (>20% zeros), for which the binary/tertile
@@ -303,10 +324,20 @@ for (step in 1:40) {
   vv <- tryCatch(car::vif(lm_t), error = function(e) NULL); if (is.null(vv)) break
   names(vv) <- gsub("`", "", names(vv))
   if (max(vv, na.rm = TRUE) < VIF_THRESHOLD) break
-  drop <- names(which.max(vv)); if (drop %in% forced_z) break
+  removable <- vv[!names(vv) %in% forced_z]
+  if (!length(removable) || max(removable, na.rm = TRUE) < VIF_THRESHOLD) break
+  drop <- names(which.max(removable))
   keep <- setdiff(keep, drop)
 }
 covs <- keep
+final_vif <- tryCatch({
+  mm <- lm(as.formula(paste("cases ~", paste0("`", covs, "`", collapse = "+"))),
+           data = vif_data)
+  car::vif(mm)
+}, error = function(e) NULL)
+if (!is.null(final_vif))
+  write.csv(data.frame(variable = names(final_vif), VIF = as.numeric(final_vif)),
+            file.path(OUT_DIR, "vif_audit.csv"), row.names = FALSE)
 cat(sprintf("  covariates entering INLA: %d (VIF < %d)\n", length(covs), VIF_THRESHOLD))
 
 # Final analysis frame: complete cases on the modelled covariates, indexed by
@@ -319,6 +350,8 @@ ic <- data_ext[complete.cases(data_ext[, covs]), ] %>%
 ic$idarea_time <- seq_len(nrow(ic))
 cat(sprintf("  analysis frame: N = %d district-years | EPV = %.1f\n",
             nrow(ic), nrow(ic) / length(covs)))
+write.csv(ic, file.path(OUT_DIR, "analysis_dataset_compiled.csv"),
+          row.names = FALSE, fileEncoding = "UTF-8")
 
 # Priors (penalised-complexity) shared across models.
 pc_bym  <- list(prec.unstruct = list(prior = "pc.prec", param = c(0.5, 0.01)),
@@ -351,6 +384,39 @@ table2 <- data.frame(
 cat(sprintf("  Table 2: %d covariates, %d credible (95%% CrI excludes 1)\n",
             nrow(table2), sum(table2$credible)))
 print(table2[table2$credible == 1, ], row.names = FALSE)
+
+FAST_PRINCIPAL <- identical(tolower(Sys.getenv("FAST_PRINCIPAL", "false")), "true")
+if (FAST_PRINCIPAL) {
+  agg_fast <- ic %>% group_by(idarea) %>%
+    summarise(rate = sum(cases) / sum(population) * 1e5, .groups = "drop") %>% arrange(idarea)
+  rv_fast <- rep(NA, nrow(shp_main)); rv_fast[agg_fast$idarea] <- agg_fast$rate
+  moran_pre_fast <- moran.test(rv_fast, nb_w, zero.policy = TRUE, na.action = na.omit)
+  fit_fast <- M6$summary.fitted.values$mean[seq_len(nrow(ic))]
+  res_fast <- ic %>% mutate(resid = cases - fit_fast) %>% group_by(idarea) %>%
+    summarise(r = sum(resid), .groups = "drop") %>% arrange(idarea)
+  rr_fast <- rep(NA, nrow(shp_main)); rr_fast[res_fast$idarea] <- res_fast$r
+  moran_post_fast <- moran.test(rr_fast, nb_w, zero.policy = TRUE, na.action = na.omit)
+  re_fast <- M6$summary.random$idarea; na_fast <- nrow(shp_main)
+  n_high_fast <- sum(re_fast$`0.025quant`[1:na_fast] > 0)
+  n_low_fast <- sum(re_fast$`0.975quant`[1:na_fast] < 0)
+  write.csv(table2, file.path(OUT_DIR, "table2_principal_IRR.csv"), row.names = FALSE)
+  write.csv(data.frame(region = ic$region, year = ic$year,
+                       cpo = M6$cpo$cpo, pit = M6$cpo$pit,
+                       numerical_failure = M6$cpo$failure),
+            file.path(OUT_DIR, "cpo_pit_diagnostics.csv"), row.names = FALSE)
+  write.csv(data.frame(
+    metric = c("N_district_years", "districts", "cases_all_229_districts",
+               "M6_DIC", "M6_WAIC", "crude_Moran_I", "crude_Moran_p",
+               "residual_Moran_I", "residual_Moran_p", "high_risk", "low_risk"),
+    value = c(nrow(ic), nrow(shp_main), sum(df_target$cases), M6$dic$dic, M6$waic$waic,
+              moran_pre_fast$estimate[[1]], moran_pre_fast$p.value,
+              moran_post_fast$estimate[[1]], moran_post_fast$p.value,
+              n_high_fast, n_low_fast)),
+    file.path(OUT_DIR, "core_diagnostics.csv"), row.names = FALSE)
+  writeLines(capture.output(sessionInfo()), file.path(OUT_DIR, "sessionInfo.txt"))
+  cat("\nFAST_PRINCIPAL run complete.\n")
+  quit(save = "no", status = 0)
+}
 
 # ---------------------------------------------------------------------------
 # [7] Model comparison M1-M6 (Table S1)
@@ -393,33 +459,34 @@ re <- M6$summary.random$idarea; na <- nrow(shp_main)
 n_high <- sum(re$`0.025quant`[1:na] > 0); n_low <- sum(re$`0.975quant`[1:na] < 0)
 cat(sprintf("  high-risk districts = %d | low-risk districts = %d\n", n_high, n_low))
 
-# ---------------------------------------------------------------------------
-# [9] BYM2 reparametrisation and prior sensitivity (Tables S3 / S7)
-# ---------------------------------------------------------------------------
-cat("\n## [9] BYM2 mixing parameter phi (Tables S3/S7)\n")
-f_bym2 <- function(hy) paste(base_f,
-  "+ f(idarea, model='bym2', graph=g_main, scale.model=TRUE, constr=TRUE", hy, ")",
-  "+ f(idtime, model='rw1', hyper=pc_prec)",
-  "+ f(idarea_time, model='iid', hyper=pc_prec)")
-# Principal PC prior on phi, plus a panel of alternative priors.
-phi_priors <- list(
-  "PC(0.5,2/3)" = ",hyper=list(prec=list(prior='pc.prec',param=c(1,0.01)),phi=list(prior='pc',param=c(0.5,2/3)))",
-  "PC(0.5,0.5)" = ",hyper=list(prec=list(prior='pc.prec',param=c(1,0.01)),phi=list(prior='pc',param=c(0.5,0.5)))",
-  "PC(0.5,0.9)" = ",hyper=list(prec=list(prior='pc.prec',param=c(1,0.01)),phi=list(prior='pc',param=c(0.5,0.9)))")
-for (nm in names(phi_priors)) {
-  b2 <- fitm(f_bym2(phi_priors[[nm]]))
-  if (is.null(b2)) next
-  pr <- grep("Phi", rownames(b2$summary.hyperpar), ignore.case = TRUE, value = TRUE)[1]
-  cat(sprintf("  %-12s phi = %.3f (%.3f-%.3f) | DIC = %.2f\n", nm,
-              b2$summary.hyperpar[pr, "mean"],
-              b2$summary.hyperpar[pr, "0.025quant"],
-              b2$summary.hyperpar[pr, "0.975quant"], b2$dic$dic))
+# Persist the independently regenerated core results before optional extended
+# analyses. This makes a failed sensitivity fit unable to erase the audit trail.
+write.csv(table2, file.path(OUT_DIR, "table2_principal_IRR.csv"), row.names = FALSE)
+write.csv(tableS1, file.path(OUT_DIR, "tableS1_model_comparison.csv"), row.names = FALSE)
+write.csv(data.frame(region = ic$region, year = ic$year,
+                     cpo = M6$cpo$cpo, pit = M6$cpo$pit,
+                     numerical_failure = M6$cpo$failure),
+          file.path(OUT_DIR, "cpo_pit_diagnostics.csv"), row.names = FALSE)
+write.csv(data.frame(
+  metric = c("N_district_years", "districts", "cases_all_229_districts",
+             "M6_DIC", "M6_WAIC", "crude_Moran_I", "crude_Moran_p",
+             "residual_Moran_I", "residual_Moran_p", "high_risk", "low_risk"),
+  value = c(nrow(ic), nrow(shp_main), sum(df_target$cases), M6$dic$dic,
+            M6$waic$waic, moran_pre$estimate[[1]], moran_pre$p.value,
+            moran_post$estimate[[1]], moran_post$p.value, n_high, n_low)),
+  file.path(OUT_DIR, "core_diagnostics.csv"), row.names = FALSE)
+writeLines(capture.output(sessionInfo()), file.path(OUT_DIR, "sessionInfo.txt"))
+
+RUN_EXTENDED <- identical(tolower(Sys.getenv("RUN_EXTENDED", "false")), "true")
+if (!RUN_EXTENDED) {
+  cat("\nCore reproducibility run complete. Set RUN_EXTENDED=true for sections 9-12.\n")
+  quit(save = "no", status = 0)
 }
 
 # ---------------------------------------------------------------------------
-# [10] Eight-graph neighbourhood sensitivity (Table S2)
+# [9] Eight-graph neighbourhood sensitivity (Table S2)
 # ---------------------------------------------------------------------------
-cat("\n## [10] 8-graph neighbourhood sensitivity (Table S2)\n")
+cat("\n## [9] 8-graph neighbourhood sensitivity (Table S2)\n")
 cz <- st_coordinates(st_centroid(st_geometry(shp_main)))
 mkgraph <- function(nb) { f <- tempfile(); nb2INLA(f, nb); inla.read.graph(f) }
 graphs <- list(Queen = poly2nb(shp_main, queen = TRUE,  snap = 0.01),
@@ -446,9 +513,9 @@ cat("  credible across graphs (out of 8):\n")
 for (c in cred) cat(sprintf("    %-18s %d/8\n", c, graph_cred[c]))
 
 # ---------------------------------------------------------------------------
-# [11] Getis-Ord Gi* local clustering (Figure S2)
+# [10] Getis-Ord Gi* local clustering (Figure S2)
 # ---------------------------------------------------------------------------
-cat("\n## [11] Getis-Ord Gi* (Figure S2)\n")
+cat("\n## [10] Getis-Ord Gi* (Figure S2)\n")
 nb_self <- include.self(nb_obj)
 lw_self <- nb2listw(nb_self, style = "B", zero.policy = TRUE)
 gi <- localG(ifelse(is.na(rv), 0, rv), lw_self, zero.policy = TRUE)
@@ -458,9 +525,9 @@ cat(sprintf("  Gi* z-scores: hot spots (z > 1.96) = %d | cold spots (z < -1.96) 
 getis <- data.frame(region = shp_main$region, Gi_z = round(gi_z, 3))
 
 # ---------------------------------------------------------------------------
-# [12] Alternative-specification robustness checks (Table S8)
+# [11] Alternative-specification robustness checks (Table S6)
 # ---------------------------------------------------------------------------
-cat("\n## [12] Robustness checks (Table S8)\n")
+cat("\n## [11] Robustness checks (Table S6)\n")
 irr_txt <- function(fit, name) {
   if (!name %in% rownames(fit$summary.fixed)) return("-")
   r <- fit$summary.fixed[name, ]
@@ -505,9 +572,9 @@ cat(sprintf("  (c) + swine/poultry:     dairy IRR %s | swine %s | poultry %s\n",
             if (!is.null(fc)) irr_txt(fc, "poultry_farm_z") else "-"))
 
 # ---------------------------------------------------------------------------
-# [13] Predictive diagnostics (CPO / PIT)
+# [12] Predictive diagnostics (CPO / PIT)
 # ---------------------------------------------------------------------------
-cat("\n## [13] Predictive diagnostics\n")
+cat("\n## [12] Predictive diagnostics\n")
 cpo_fail <- sum(M6$cpo$failure > 0, na.rm = TRUE)
 cat(sprintf("  CPO failures = %d/%d | mean PIT = %.3f (well-calibrated ~ 0.5)\n",
             cpo_fail, length(M6$cpo$cpo), mean(M6$cpo$pit, na.rm = TRUE)))

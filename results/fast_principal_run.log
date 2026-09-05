@@ -1,0 +1,191 @@
+/Volumes/Temp/tmp/Rtmpf8gpIK/R.INSTALLea95e3cb896/arrow/tools/cpp/src/arrow/util/cpu_info.cc:242: IOError: sysctlbyname failed for 'hw.l1dcachesize'. Detail: [errno 1] Operation not permitted
+/Volumes/Temp/tmp/Rtmpf8gpIK/R.INSTALLea95e3cb896/arrow/tools/cpp/src/arrow/util/cpu_info.cc:242: IOError: sysctlbyname failed for 'hw.l2cachesize'. Detail: [errno 1] Operation not permitted
+/Volumes/Temp/tmp/Rtmpf8gpIK/R.INSTALLea95e3cb896/arrow/tools/cpp/src/arrow/util/cpu_info.cc:242: IOError: sysctlbyname failed for 'hw.l3cachesize'. Detail: [errno 1] Operation not permitted
+/Volumes/Temp/tmp/Rtmpf8gpIK/R.INSTALLea95e3cb896/arrow/tools/cpp/src/arrow/util/cpu_info.cc:242: IOError: sysctlbyname failed for 'hw.optional.neon'. Detail: [errno 1] Operation not permitted
+## [3] Loading data
+  HAV: 1145 district-years | 229 districts | 14950 cases
+  parquet health indicators: 15 variables
+  csv 생활용지하수이용현황_전처리.csv 2 variables
+  csv merged_지하수수질.csv     1 variables
+  csv merged_하수관로개보수.csv 1 variables
+  csv merged_하수도보급률.csv  3 variables
+  csv 가축두수_전처리.csv     3 variables
+  csv 고령인구_전처리.csv     1 variables
+  csv 국토이용현황_전처리_수정.csv 3 variables
+  csv 어패류_패류_전처리.csv 1 variables
+  merged: 1145 rows x 35 columns
+
+## [4] Pre-specified covariates: 27 (forced confounders: 4)
+Warning message:
+In poly2nb(shp_main, snap = 0.01) : neighbour object has 2 sub-graphs;
+if this sub-graph count seems unexpected, try increasing the snap argument.
+  districts in spatial model: 223
+  covariates entering INLA: 27 (VIF < 10)
+  analysis frame: N = 1112 district-years | EPV = 41.2
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+sh: /bin/kstat: No such file or directory
+Fail to read A:B[:C] from [NA:1]
+Will continue with '4:1:2'
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=75
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 10 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=51
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 7 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=235
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 134 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=110
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 92 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=366
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 20 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=440
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 2 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=90
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=0
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 408 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=842
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=702
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 189 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=365
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 72 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=677
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=1
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 28 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=0
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 338 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=365
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 38 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 38 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=75
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 125 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=377
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 2 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=365
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 16 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=0
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 219 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=1
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 168 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=818
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=0
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 44 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=381
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 13 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=636
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 12 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=0
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 39 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=110
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=6
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 547 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=440
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 2 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=526
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 39 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=34
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 103 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=0
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 680 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=6
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 303 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=525
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 17 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=0
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 447 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=0
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 663 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=365
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 150 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=560
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 2 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=367
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 46 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=0
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 595 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=440
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 4 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=401
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 55 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=0
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 422 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=0
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 335 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=18
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 204 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=1
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 484 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=365
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 39 NAN/INF values in logl
+ *** WARNING *** GMRFLib_2order_approx: rescue NAN/INF values in logl for idx=0
+ *** WARNING *** GMRFLib_2order_approx: reset counter for 497 NAN/INF values in logl
+
+## [6] Principal model M6: DIC = 5716.15 | WAIC = 5730.52
+  Table 2: 27 covariates, 9 credible (95% CrI excludes 1)
+    covariate   IRR    lo    hi credible
+   dairy_farm 1.057 1.019 1.097        1
+ gw_household 1.061 1.005 1.121        1
+ water_supply 1.071 1.007 1.138        1
+ sewer_repair 0.901 0.817 0.994        1
+       forest 0.868 0.795 0.949        1
+  residential 1.073 1.003 1.148        1
+  alone_80_84 0.940 0.894 0.988        1
+ fiscal_indep 0.898 0.827 0.975        1
+       med_in 1.216 1.160 1.275        1
+
+FAST_PRINCIPAL run complete.

@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this reproducibility package, please cite the associated article and the archived software release (concept DOI 10.5281/zenodo.20725490)."
+title: "Piped water, private wells, and forest cover shape hepatitis A geography in South Korea (analysis code and compiled data)"
+type: software
+version: 2.0.0
+date-released: 2026-09-05
+doi: 10.5281/zenodo.20725490
+authors:
+  - family-names: Kim
+    given-names: Seongdae
+    affiliation: "Hongik University; Korea University Graduate School"
+    orcid: "https://orcid.org/0000-0002-1525-0091"
+  - family-names: Chun
+    given-names: Byung Chul
+    affiliation: Korea University College of Medicine
+repository-code: "https://github.com/Seongdae-Kim-Hongik/hepatitis-a-spatial-korea"
+license: MIT
+keywords:
+  - hepatitis A
+  - spatial epidemiology
+  - Bayesian spatial model
+  - groundwater
+  - water infrastructure
+  - South Korea
