@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: "If you use this reproducibility package, please cite the associated article and the archived software release (concept DOI 10.5281/zenodo.20725490)."
 title: "Sanitation infrastructure, environmental vulnerability, and hepatitis A in South Korea (analysis code and compiled data)"
 type: software
-version: 2.0.0
-date-released: 2026-09-05
+version: 2.0.1
+date-released: 2026-09-06
 doi: 10.5281/zenodo.20725490
 authors:
   - family-names: Kim

@@ -1,5 +1,5 @@
 # =============================================================================
-# Reproducible analysis code (v2.0.0, corrected reproducibility release)
+# Reproducible analysis code (v2.0.1, corrected reproducibility release)
 # "Sanitation infrastructure, environmental vulnerability, and hepatitis A
 #  in South Korea"
 # Seongdae Kim, Byung Chul Chun.

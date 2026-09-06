@@ -60,6 +60,9 @@ MIT (see `LICENSE`). Archived on Zenodo — concept DOI (all versions): https://
 
 ## Changelog
 
+### v2.0.1 — title alignment (2026-09-06)
+Manuscript title and archive metadata updated to the final submitted wording; no change to code, data, or results.
+
 ### v2.0.0 — corrected reproducibility release (2026-09-05)
 - The analysis script is replaced by a corrected implementation. Fixes relative to v1.x: the `nb2INLA` argument order in the graph export; the precision prior is now PC.prec(0.5, 0.01) as reported; covariates enter as district-year values with biennial carry-forward rather than five-year means; the groundwater-quality variable is documented as a testing count; quantile-coded covariates are documented as ordinal scores (1-SD effects).
 - The description of the covariate set is corrected: it was developed exploratorily, not pre-specified. The associated manuscript is framed as hypothesis-generating accordingly.
