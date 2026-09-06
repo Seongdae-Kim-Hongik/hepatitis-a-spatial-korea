@@ -4,7 +4,7 @@
 
 Reproducibility package for:
 
-> **Piped water, private wells, and forest cover shape hepatitis A geography in South Korea.**
+> **Sanitation infrastructure and environmental vulnerability as determinants of hepatitis A incidence in South Korea: a nationwide Bayesian spatiotemporal analysis, 2020–2024.**
 > Seongdae Kim, Byung Chul Chun. (Submitted to *Frontiers in Ecology and the Environment* as a Research Communication.)
 
 Earlier releases of this repository accompanied the same analysis under previous working titles; the concept DOI above always resolves to the latest version.
