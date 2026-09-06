@@ -4,7 +4,7 @@
 
 Reproducibility package for:
 
-> **Sanitation infrastructure and environmental vulnerability as determinants of hepatitis A incidence in South Korea: a nationwide Bayesian spatiotemporal analysis, 2020–2024.**
+> **Sanitation infrastructure, environmental vulnerability, and hepatitis A in South Korea.**
 > Seongdae Kim, Byung Chul Chun. (Submitted to *Frontiers in Ecology and the Environment* as a Research Communication.)
 
 Earlier releases of this repository accompanied the same analysis under previous working titles; the concept DOI above always resolves to the latest version.
