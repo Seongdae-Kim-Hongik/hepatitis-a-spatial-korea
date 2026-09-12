@@ -1,11 +1,12 @@
 # =============================================================================
-# Reproducible analysis code (v2.0.1, corrected reproducibility release)
-# "Sanitation infrastructure, environmental vulnerability, and hepatitis A
-#  in South Korea"
+# Reproducible analysis code (v2.0.2, corrected reproducibility release)
+# "Sanitation infrastructure and environmental vulnerability of hepatitis A
+#  transmission in South Korea: a nationwide Bayesian hierarchical analysis,
+#  2020-2024"
 # Seongdae Kim, Byung Chul Chun.
-# Submitted to Frontiers in Ecology and the Environment (ESA/Wiley) as a
-# Research Communication. Earlier versions of this repository accompanied the
-# same analysis under previous working titles.
+# Submitted to One Health (Elsevier) as an Original Article. Earlier versions
+# of this repository accompanied the same analysis under previous working
+# titles and journal targets.
 #
 # Model: Bayesian negative-binomial disease mapping with a Besag-York-Mollie
 #  (BYM) convolution + first-order temporal random walk (RW1) + Knorr-Held
@@ -26,11 +27,13 @@
 #  * Principal model M6  (DIC 5,716.29; WAIC 5,729.22; residual Moran's I
 #    +0.053, p = 0.090)
 #  * 27 covariate incidence-rate ratios, 9 credible
-#    (Frontiers: Table 1 and Appendix S1: Table S2)
-#  * Model comparison M1-M6 and global Moran's I (Appendix S1: Table S3a)
-#  * 8-graph neighbourhood sensitivity (Queen/Rook + k-NN, k = 2-7)
-#  * Getis-Ord Gi* local clustering
-#  * Alternative-specification robustness checks (Appendix S1: Table S3b)
+#    (Table 2; transforms in Supplementary Table S4)
+#  * Model comparison M1-M6 (Supplementary Table S1) and global Moran's I
+#    (Supplementary Table S3)
+#  * 8-graph neighbourhood sensitivity, Queen/Rook + k-NN, k = 2-7
+#    (Supplementary Table S2)
+#  * Getis-Ord Gi* local clustering (Supplementary Figure S2)
+#  * Alternative-specification robustness checks (Supplementary Table S6)
 #
 # Software: R 4.x with R-INLA. The committed results/ directory records a
 #  verified principal-model run under R 4.6.0 and INLA 25.10.19; earlier fits
@@ -210,7 +213,8 @@ for (fn in names(selected)) {
 cat(sprintf("  merged: %d rows x %d columns\n", nrow(cor_merged), ncol(cor_merged)))
 
 # ---------------------------------------------------------------------------
-# [4] Final selected covariate set (27) and functional forms (Table S5)
+# [4] Final selected covariate set (27) and functional forms
+#     (Supplementary Table S4)
 # ---------------------------------------------------------------------------
 # Each covariate enters here with the final reported functional form:
 #   raw    = standardised continuous
@@ -419,9 +423,9 @@ if (FAST_PRINCIPAL) {
 }
 
 # ---------------------------------------------------------------------------
-# [7] Model comparison M1-M6 (Table S1)
+# [7] Model comparison M1-M6 (Supplementary Table S1)
 # ---------------------------------------------------------------------------
-cat("\n## [7] Model comparison (Table S1)\n")
+cat("\n## [7] Model comparison (Supplementary Table S1)\n")
 M <- list(
   M1 = base_f,
   M2 = paste(base_f, "+ f(idarea, model='besag', graph=g_main, scale.model=TRUE, hyper=pc_prec)"),
@@ -438,9 +442,9 @@ tableS1 <- do.call(rbind, lapply(names(M), function(n) {
 print(tableS1, row.names = FALSE)
 
 # ---------------------------------------------------------------------------
-# [8] Global Moran's I, pre- and post-modelling (Table S4)
+# [8] Global Moran's I, pre- and post-modelling (Supplementary Table S3)
 # ---------------------------------------------------------------------------
-cat("\n## [8] Global Moran's I (Table S4)\n")
+cat("\n## [8] Global Moran's I (Supplementary Table S3)\n")
 agg <- ic %>% group_by(idarea) %>%
   summarise(rate = sum(cases) / sum(population) * 1e5, .groups = "drop") %>% arrange(idarea)
 rv <- rep(NA, nrow(shp_main)); rv[agg$idarea] <- agg$rate
@@ -484,9 +488,9 @@ if (!RUN_EXTENDED) {
 }
 
 # ---------------------------------------------------------------------------
-# [9] Eight-graph neighbourhood sensitivity (Table S2)
+# [9] Eight-graph neighbourhood sensitivity (Supplementary Table S2)
 # ---------------------------------------------------------------------------
-cat("\n## [9] 8-graph neighbourhood sensitivity (Table S2)\n")
+cat("\n## [9] 8-graph neighbourhood sensitivity (Supplementary Table S2)\n")
 cz <- st_coordinates(st_centroid(st_geometry(shp_main)))
 mkgraph <- function(nb) { f <- tempfile(); nb2INLA(f, nb); inla.read.graph(f) }
 graphs <- list(Queen = poly2nb(shp_main, queen = TRUE,  snap = 0.01),
@@ -513,9 +517,9 @@ cat("  credible across graphs (out of 8):\n")
 for (c in cred) cat(sprintf("    %-18s %d/8\n", c, graph_cred[c]))
 
 # ---------------------------------------------------------------------------
-# [10] Getis-Ord Gi* local clustering (Figure S2)
+# [10] Getis-Ord Gi* local clustering (Supplementary Figure S2)
 # ---------------------------------------------------------------------------
-cat("\n## [10] Getis-Ord Gi* (Figure S2)\n")
+cat("\n## [10] Getis-Ord Gi* (Supplementary Figure S2)\n")
 nb_self <- include.self(nb_obj)
 lw_self <- nb2listw(nb_self, style = "B", zero.policy = TRUE)
 gi <- localG(ifelse(is.na(rv), 0, rv), lw_self, zero.policy = TRUE)
@@ -525,9 +529,9 @@ cat(sprintf("  Gi* z-scores: hot spots (z > 1.96) = %d | cold spots (z < -1.96) 
 getis <- data.frame(region = shp_main$region, Gi_z = round(gi_z, 3))
 
 # ---------------------------------------------------------------------------
-# [11] Alternative-specification robustness checks (Table S6)
+# [11] Alternative-specification robustness checks (Supplementary Table S6)
 # ---------------------------------------------------------------------------
-cat("\n## [11] Robustness checks (Table S6)\n")
+cat("\n## [11] Robustness checks (Supplementary Table S6)\n")
 irr_txt <- function(fit, name) {
   if (!name %in% rownames(fit$summary.fixed)) return("-")
   r <- fit$summary.fixed[name, ]

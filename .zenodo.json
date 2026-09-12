@@ -1,9 +1,9 @@
 {
-  "title": "Sanitation infrastructure, environmental vulnerability, and hepatitis A in South Korea (analysis code and compiled data, v2.0.1)",
+  "title": "Sanitation infrastructure and environmental vulnerability of hepatitis A transmission in South Korea: a nationwide Bayesian hierarchical analysis, 2020–2024 (analysis code and compiled data, v2.0.2)",
   "upload_type": "software",
-  "version": "2.0.1",
-  "publication_date": "2026-09-06",
-  "description": "Corrected, submission-aligned reproducibility package for a Bayesian spatiotemporal analysis of district-level hepatitis A incidence across 223 South Korean districts, 2020-2024 (negative binomial, Besag-York-Mollie convolution + RW1 + Knorr-Held Type I interaction, fitted with R-INLA). Contains the R script for the final 27-covariate model, the compiled 1,112-row district-year analytic dataset, principal-model incidence-rate ratios, model-comparison and spatial-residual diagnostics, CPO/PIT values, a VIF audit, run logs and R/INLA session information. The final covariate specification was developed exploratorily; the reported credible associations are hypothesis-generating. Supersedes v1.x, which carried the pre-correction script and no compiled data.",
+  "version": "2.0.2",
+  "publication_date": "2026-09-12",
+  "description": "Corrected, submission-aligned reproducibility package for a Bayesian spatiotemporal analysis of district-level hepatitis A incidence across 223 South Korean districts, 2020-2024 (negative binomial, Besag-York-Mollie convolution + RW1 + Knorr-Held Type I interaction, fitted with R-INLA). Contains the R script for the final 27-covariate model, the compiled 1,112-row district-year analytic dataset, principal-model incidence-rate ratios, model-comparison and spatial-residual diagnostics, CPO/PIT values, a VIF audit, run logs and R/INLA session information. The final covariate specification was developed exploratorily; the reported credible associations are hypothesis-generating. Supersedes v1.x, which carried the pre-correction script and no compiled data. v2.0.2 aligns the archive title and script header with the manuscript submitted to One Health (Elsevier).",
   "license": "MIT",
   "creators": [
     {

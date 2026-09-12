@@ -4,10 +4,10 @@
 
 Reproducibility package for:
 
-> **Sanitation infrastructure, environmental vulnerability, and hepatitis A in South Korea.**
-> Seongdae Kim, Byung Chul Chun. (Submitted to *Frontiers in Ecology and the Environment* as a Research Communication.)
+> **Sanitation infrastructure and environmental vulnerability of hepatitis A transmission in South Korea: a nationwide Bayesian hierarchical analysis, 2020–2024**
+> Seongdae Kim, Byung Chul Chun. (Submitted to *One Health* (Elsevier) as an Original Article.)
 
-Earlier releases of this repository accompanied the same analysis under previous working titles; the concept DOI above always resolves to the latest version.
+Earlier releases of this repository accompanied the same analysis under previous working titles and journal targets; the concept DOI above always resolves to the latest version.
 
 ## What this does
 A Bayesian negative-binomial disease-mapping analysis of district-level hepatitis A virus (HAV) incidence across 223 contiguous South Korean districts over 1,112 district-years (2020–2024), fitted with **R-INLA**:
@@ -21,16 +21,16 @@ A Bayesian negative-binomial disease-mapping analysis of district-level hepatiti
 
 ## Reproduced headline numbers (principal model M6, N = 1,112)
 - DIC ≈ 5,716; WAIC ≈ 5,729; residual Moran's I = +0.053 (p = 0.090)
-- 9 credible covariates: piped-water coverage, household groundwater wells, dairy-cattle farms, residential land area, inpatient cost — risk-elevating; forest cover, sewer-pipe repair, single-person elderly households, municipal fiscal independence — protective
+- 9 credible covariates: piped-water coverage, household groundwater wells, dairy-cattle farms, residential land area, inpatient cost — risk-elevating; forest cover, sewer-pipe repair, single-person elderly residents aged 80–84, municipal fiscal independence — protective
 - Seven of the nine associations persist under all eight neighbourhood definitions; residential land area is the only purely local (adjacent-district) signal
 
 ## Contents
 | Path | What it is |
 |---|---|
-| `HAV_spatial_reproducible.R` | Corrected, directly runnable implementation of the final model (v2.0.0) |
+| `HAV_spatial_reproducible.R` | Corrected, directly runnable implementation of the final model |
 | `results/analysis_dataset_compiled.csv` | The exact 1,112-row district-year analytic table used by the verified run |
-| `results/table2_principal_IRR.csv` | 27 incidence-rate ratios with 95% credible intervals (Table 1 / Appendix S1: Table S2) |
-| `results/tableS1_model_comparison.csv` | M1–M6 DIC/WAIC (Appendix S1: Table S3a) |
+| `results/table2_principal_IRR.csv` | 27 incidence-rate ratios with 95% credible intervals (manuscript Table 2) |
+| `results/tableS1_model_comparison.csv` | M1–M6 DIC/WAIC (Supplementary Table S1) |
 | `results/core_diagnostics.csv` | Fit criteria and crude/residual Moran's I |
 | `results/cpo_pit_diagnostics.csv` | CPO and PIT values, all district-years |
 | `results/vif_audit.csv` | Variance-inflation audit of the 27 covariates |
@@ -59,6 +59,9 @@ Annual district-level HAV notifications are released by the **Korea Disease Cont
 MIT (see `LICENSE`). Archived on Zenodo — concept DOI (all versions): https://doi.org/10.5281/zenodo.20725490
 
 ## Changelog
+
+### v2.0.2 — One Health title alignment (2026-09-12)
+Manuscript title, target journal and archive metadata updated to the version submitted to *One Health*. Supplementary table references in the script header and section comments renumbered to the One Health supplement (model comparison S1, neighbourhood sensitivity S2, Moran's I S3, variable dictionary S4, alternative specifications S6). No change to code logic, data or results.
 
 ### v2.0.1 — title alignment (2026-09-06)
 Manuscript title and archive metadata updated to the final submitted wording; no change to code, data, or results.
