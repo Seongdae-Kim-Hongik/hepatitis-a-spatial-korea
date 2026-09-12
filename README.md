@@ -21,8 +21,8 @@ A Bayesian negative-binomial disease-mapping analysis of district-level hepatiti
 
 ## Reproduced headline numbers (principal model M6, N = 1,112)
 - DIC ≈ 5,716; WAIC ≈ 5,729; residual Moran's I = +0.053 (p = 0.090)
-- 9 credible covariates: piped-water coverage, household groundwater wells, dairy-cattle farms, residential land area, inpatient cost — risk-elevating; forest cover, sewer-pipe repair, single-person elderly residents aged 80–84, municipal fiscal independence — protective
-- Seven of the nine associations persist under all eight neighbourhood definitions; residential land area is the only purely local (adjacent-district) signal
+- 9 credible covariates, named as in manuscript Table 2: water-supply coverage, household groundwater wells, dairy-cattle farms, residential land area, inpatient medical cost — risk-elevating; forest area, sewer-pipe repair, single-person elderly (80–84 y), fiscal independence — protective
+- Seven of the nine associations persist under all eight neighbourhood definitions; fiscal independence is credible in seven of eight (not under the sparsest k = 2 graph) and residential land area in only the two contiguity graphs, the only purely local (adjacent-district) signal
 
 ## Contents
 | Path | What it is |
@@ -59,6 +59,9 @@ Annual district-level HAV notifications are released by the **Korea Disease Cont
 MIT (see `LICENSE`). Archived on Zenodo — concept DOI (all versions): https://doi.org/10.5281/zenodo.20725490
 
 ## Changelog
+
+### v2.0.3 — variable-name alignment (2026-09-12)
+Reproduced-numbers list in this README now uses the manuscript Table 2 covariate names (water-supply coverage, forest area, fiscal independence, inpatient medical cost) instead of looser paraphrases, and states the seven-of-eight result for fiscal independence explicitly. A script comment described the swine and poultry specificity check as farm *density*; the variables are farm **counts** (source columns `농가수(호)`), and the comment is corrected. No change to code logic, data or results.
 
 ### v2.0.2 — One Health title alignment (2026-09-12)
 Manuscript title, target journal and archive metadata updated to the version submitted to *One Health*. Supplementary table references in the script header and section comments renumbered to the One Health supplement (model comparison S1, neighbourhood sensitivity S2, Moran's I S3, variable dictionary S4, alternative specifications S6). No change to code logic, data or results.

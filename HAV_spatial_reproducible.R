@@ -1,5 +1,5 @@
 # =============================================================================
-# Reproducible analysis code (v2.0.2, corrected reproducibility release)
+# Reproducible analysis code (v2.0.3, corrected reproducibility release)
 # "Sanitation infrastructure and environmental vulnerability of hepatitis A
 #  transmission in South Korea: a nationwide Bayesian hierarchical analysis,
 #  2020-2024"
@@ -549,7 +549,8 @@ fit_alt <- function(dat, cv) tryCatch(
 fa <- fit_alt(ic %>% filter(!year %in% c(2020, 2021)), covs)
 # (b) drop inpatient medical cost (guard against over-adjustment / ascertainment)
 fb <- fit_alt(ic, setdiff(covs, "med_in_z"))
-# (c) add swine and poultry farm density (tests specificity of the dairy signal)
+# (c) add swine and poultry farm counts (tests specificity of the dairy signal).
+#     Source columns are 농가수(호) = number of farms, not animal headcount or area density.
 add_cov <- function(dat, raw_col, newname) {
   key <- cor_merged %>% transmute(region, year, val = suppressWarnings(as.numeric(.data[[raw_col]])))
   m <- dat %>% left_join(key, by = c("region", "year"))
