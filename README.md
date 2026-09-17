@@ -30,7 +30,7 @@ A Bayesian negative-binomial disease-mapping analysis of district-level hepatiti
 | `HAV_spatial_reproducible.R` | Corrected, directly runnable implementation of the final model |
 | `results/analysis_dataset_compiled.csv` | The exact 1,112-row district-year analytic table used by the verified run |
 | `results/table2_principal_IRR.csv` | 27 incidence-rate ratios with 95% credible intervals (manuscript Table 2) |
-| `results/tableS1_model_comparison.csv` | M1–M6 DIC/WAIC (Supplementary Table S1) |
+| `results/tableS1_model_comparison.csv` | M1–M6 DIC/WAIC (Table S1, Multimedia Appendix 1) |
 | `results/core_diagnostics.csv` | Fit criteria and crude/residual Moran's I |
 | `results/cpo_pit_diagnostics.csv` | CPO and PIT values, all district-years |
 | `results/vif_audit.csv` | Variance-inflation audit of the 27 covariates |
