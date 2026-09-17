@@ -1,9 +1,9 @@
 cff-version: 1.2.0
 message: "If you use this reproducibility package, please cite the associated article and the archived software release (concept DOI 10.5281/zenodo.20725490)."
-title: "Sanitation infrastructure and environmental vulnerability of hepatitis A transmission in South Korea: a nationwide Bayesian hierarchical analysis, 2020–2024 (analysis code and compiled data)"
+title: "Sanitation Infrastructure and Environmental Vulnerability of Hepatitis A Transmission in South Korea, 2020-2024: Nationwide Bayesian Hierarchical Analysis (analysis code and compiled data)"
 type: software
-version: 2.0.3
-date-released: 2026-09-12
+version: 2.0.4
+date-released: 2026-09-17
 doi: 10.5281/zenodo.20725490
 authors:
   - family-names: Kim

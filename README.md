@@ -4,8 +4,8 @@
 
 Reproducibility package for:
 
-> **Sanitation infrastructure and environmental vulnerability of hepatitis A transmission in South Korea: a nationwide Bayesian hierarchical analysis, 2020–2024**
-> Seongdae Kim, Byung Chul Chun. (Submitted to *One Health* (Elsevier) as an Original Article.)
+> **Sanitation Infrastructure and Environmental Vulnerability of Hepatitis A Transmission in South Korea, 2020-2024: Nationwide Bayesian Hierarchical Analysis**
+> Seongdae Kim, Byung Chul Chun. (Submitted to *JMIR Public Health and Surveillance* as an Original Paper.)
 
 Earlier releases of this repository accompanied the same analysis under previous working titles and journal targets; the concept DOI above always resolves to the latest version.
 
@@ -59,6 +59,9 @@ Annual district-level HAV notifications are released by the **Korea Disease Cont
 MIT (see `LICENSE`). Archived on Zenodo — concept DOI (all versions): https://doi.org/10.5281/zenodo.20725490
 
 ## Changelog
+
+### v2.0.4 — JMIR Public Health and Surveillance submission (2026-09-17)
+Manuscript title (JMIR title case, year moved before the colon) and target journal updated to the version submitted to *JMIR Public Health and Surveillance*; supplementary material is now referenced as Multimedia Appendix 1 (tables) and Multimedia Appendix 2 (figures). No change to code logic, data or results.
 
 ### v2.0.3 — variable-name alignment (2026-09-12)
 Reproduced-numbers list in this README now uses the manuscript Table 2 covariate names (water-supply coverage, forest area, fiscal independence, inpatient medical cost) instead of looser paraphrases, and states the seven-of-eight result for fiscal independence explicitly. A script comment described the swine and poultry specificity check as farm *density*; the variables are farm **counts** (source columns `농가수(호)`), and the comment is corrected. No change to code logic, data or results.
