@@ -1,0 +1,41 @@
+"variant","hyper","mean","lo","hi"
+"default","size for the nbinomial observations (1/overdispersion)",10.5692323671023,6.85174092725999,14.3421348020505
+"default","Precision for idarea (iid component)",12183.3034625502,127.211020735484,82993.7269780944
+"default","Precision for idarea (spatial component)",16.8450870802758,10.7588282405675,25.2743376023035
+"default","Precision for idtime",4.83849881021001,1.69673785910154,10.5647334685138
+"default","Precision for idarea_time",10785.4404776647,25.7979763274297,61058.7342185817
+"vb_off","size for the nbinomial observations (1/overdispersion)",10.4878695966237,6.90342972647027,14.0790185619071
+"vb_off","Precision for idarea (iid component)",12627.0477527809,131.013688004329,85902.7193567857
+"vb_off","Precision for idarea (spatial component)",16.8457077014831,10.766201315963,25.2858660446809
+"vb_off","Precision for idtime",4.8393530681628,1.70147247935815,10.5774845123887
+"vb_off","Precision for idarea_time",27749.5434665288,27.8355541360712,131690.41259085
+"laplace","size for the nbinomial observations (1/overdispersion)",10.5011482446523,6.81789783269141,14.2017082534734
+"laplace","Precision for idarea (iid component)",12605.590408136,125.115592302863,85865.6626789287
+"laplace","Precision for idarea (spatial component)",16.8376398527676,10.7462856923164,25.2433990930895
+"laplace","Precision for idtime",4.8553049758215,1.71881125710812,10.7198743337594
+"laplace","Precision for idarea_time",20689.9190315734,26.9441794653819,103737.26976374
+"grid_int","size for the nbinomial observations (1/overdispersion)",10.5426612221197,7.04808909028408,14.0834274913425
+"grid_int","Precision for idarea (iid component)",11642.0733352214,131.453907940804,79296.784191577
+"grid_int","Precision for idarea (spatial component)",16.8443559926976,10.7673136268148,25.296214035919
+"grid_int","Precision for idtime",4.83473662342863,1.69732129541877,10.5363428752733
+"grid_int","Precision for idarea_time",19134.1013959248,27.8272104431414,98492.8534113261
+"eb_int","size for the nbinomial observations (1/overdispersion)",10.5441145312683,7.10765199089116,14.0193181194668
+"eb_int","Precision for idarea (iid component)",11283.3481878439,137.848856297778,76781.8529901899
+"eb_int","Precision for idarea (spatial component)",16.85536285536,10.7834873666323,25.3395885032861
+"eb_int","Precision for idtime",4.84064983407291,1.70061262967704,10.6008742761165
+"eb_int","Precision for idarea_time",22335.7001210051,28.5652480511951,112159.743847045
+"prior_wide","size for the nbinomial observations (1/overdispersion)",10.7099134302883,5.96121572160889,15.8795099288671
+"prior_wide","Precision for idarea (iid component)",4639.07286374865,90.2358228338512,30472.5349416862
+"prior_wide","Precision for idarea (spatial component)",16.4224274780404,10.4696181689143,24.6598635982604
+"prior_wide","Precision for idtime",3.66989305562829,1.02630931215655,8.98422430681016
+"prior_wide","Precision for idarea_time",3828.6892476015,16.4476469739233,23950.380151605
+"prior_tight","size for the nbinomial observations (1/overdispersion)",10.6328465147445,8.19587826258867,13.3298740854158
+"prior_tight","Precision for idarea (iid component)",23202.7279033211,140.475702109591,156314.731543416
+"prior_tight","Precision for idarea (spatial component)",17.6891683838424,11.3207056126944,26.4695275558898
+"prior_tight","Precision for idtime",6.75013396981084,2.90688130692375,13.2227411153516
+"prior_tight","Precision for idarea_time",35224.5715531398,51.7705204763176,186698.165038011
+"bym2","size for the nbinomial observations (1/overdispersion)",10.4308893578162,7.0043020303717,13.8268437860753
+"bym2","Precision for idarea",16.9063237287779,10.9205894072688,25.2073231488088
+"bym2","Phi for idarea",0.957399386992956,0.834519213637498,0.997574667831148
+"bym2","Precision for idtime",4.84178052806698,1.70123980480387,10.60055141798
+"bym2","Precision for idarea_time",69629.0373505498,29.9050009601467,270810.040797915

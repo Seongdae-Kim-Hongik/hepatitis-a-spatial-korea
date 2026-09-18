@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use this reproducibility package, please cite the associated article and the archived software release (concept DOI 10.5281/zenodo.20725490)."
-title: "Sanitation Infrastructure and Environmental Vulnerability of Hepatitis A Transmission in South Korea, 2020-2024: Nationwide Bayesian Hierarchical Analysis (analysis code and compiled data)"
+title: "Spatial Clustering of Hepatitis A in South Korea, 2020-2024: A Nationwide Bayesian Analysis of Groundwater, Land Cover, and Socioeconomic Gradients (analysis code, data-repair log and compiled data)"
 type: software
-version: 2.0.6
+version: 2.1.0
 date-released: 2026-09-18
 doi: 10.5281/zenodo.20725490
 authors:
@@ -20,5 +20,6 @@ keywords:
   - spatial epidemiology
   - Bayesian spatiotemporal model
   - groundwater
-  - water infrastructure
+  - land cover
+  - data quality
   - South Korea

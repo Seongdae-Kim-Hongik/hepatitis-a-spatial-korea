@@ -1,9 +1,9 @@
 {
-  "title": "Sanitation Infrastructure and Environmental Vulnerability of Hepatitis A Transmission in South Korea, 2020-2024: Nationwide Bayesian Hierarchical Analysis (analysis code and compiled data, v2.0.6)",
+  "title": "Spatial Clustering of Hepatitis A in South Korea, 2020-2024: A Nationwide Bayesian Analysis of Groundwater, Land Cover, and Socioeconomic Gradients (analysis code, data-repair log and compiled data, v2.1.0)",
   "upload_type": "software",
-  "version": "2.0.6",
+  "version": "2.1.0",
   "publication_date": "2026-09-18",
-  "description": "Corrected, submission-aligned reproducibility package for a Bayesian spatiotemporal analysis of district-level hepatitis A incidence across 223 South Korean districts, 2020-2024 (negative binomial, Besag-York-Mollie convolution + RW1 + Knorr-Held Type I interaction, fitted with R-INLA). Contains the R script for the final 27-covariate model, the compiled 1,112-row district-year analytic dataset, principal-model incidence-rate ratios, model-comparison and spatial-residual diagnostics, CPO/PIT values, a VIF audit, run logs and R/INLA session information. The final covariate specification was developed exploratorily; the reported credible associations are hypothesis-generating. Supersedes v1.x, which carried the pre-correction script and no compiled data. v2.0.2 aligned the archive title and script header with the manuscript submitted to One Health (Elsevier); v2.0.3 aligned the covariate names in the README with manuscript Table 2 and corrects a script comment that described the swine/poultry specificity check as farm density rather than farm counts. v2.0.4 updates the title and target journal to the manuscript submitted to JMIR Public Health and Surveillance and re-labels the supplementary references as Multimedia Appendices. v2.0.5 is documentation-only: the two archived principal-model fits (core_run.log and core_diagnostics.csv) and the fit criteria reported in the manuscript are now listed side by side, matching the reproducibility disclosure in the submitted Methods. v2.0.6 is documentation-only: DATA_PROVENANCE.md now records that some district-level livestock series were obtained through information-disclosure requests, matching the manuscript's Data Availability statement.",
+  "description": "Reproducibility package for a Bayesian spatiotemporal analysis of district-level hepatitis A incidence in South Korea, 2020-2024 (negative binomial, Besag-York-Mollie convolution + RW1 + Knorr-Held Type I interaction, fitted with R-INLA; 220 districts, 1,100 district-years, 27 covariates). v2.1.0 is a DATA-REPAIR release that supersedes all earlier versions: an audit found that several administrative source files store unavailable values as 0 instead of missing and that some series were redefined in particular years, so that, under binary and quantile coding, covariates encoded data availability rather than their true level. These values are now recoded as missing and filled with the nearest available year, and every change is logged (results/data_repair_log.csv). The v2.0.x associations for piped water-supply coverage and inpatient medical cost, and the v2.0.x claim of nine credible covariates, were artefacts of this defect and are withdrawn. In the repaired analysis four covariates are credible (household groundwater wells, dairy-cattle farms, forest area, fiscal independence) under eight neighbourhood graphs, eight INLA settings, a glmmTMB cross-fit and alternative temporal structures; the association with household groundwater wells is borderline and is lost in post hoc extreme-value sensitivity analyses, and dairy-cattle farms and fiscal independence are lost when 2020-2021 is excluded. The covariates take up only part of the spatial structure (residual Moran's I +0.17). The package contains a single R script (data repair, models, sensitivity and stability analyses), a figure script, a year-R2 data-quality screen, the compiled 1,100-row analytic dataset, all result tables, the run log and session information. The covariate specification was developed exploratorily; the reported associations are hypothesis-generating. Releases up to v2.0.6 accompanied an earlier version of the analysis under the title 'Sanitation Infrastructure and Environmental Vulnerability of Hepatitis A Transmission in South Korea, 2020-2024'.",
   "license": "MIT",
   "creators": [
     {
@@ -23,9 +23,9 @@
     "Besag-York-Mollie",
     "INLA",
     "groundwater",
-    "water infrastructure",
     "land cover",
-    "sanitation",
+    "socioeconomic factors",
+    "data quality",
     "South Korea"
   ]
 }
