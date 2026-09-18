@@ -63,6 +63,9 @@ MIT (see `LICENSE`). Archived on Zenodo — concept DOI (all versions): https://
 
 ## Changelog
 
+### v2.0.6 — data-provenance alignment (2026-09-18)
+Documentation-only. `DATA_PROVENANCE.md` now states that some district-level livestock series were obtained through information-disclosure requests rather than downloaded from a public portal, matching the Data Availability statement and Table 1 of the submitted manuscript. No change to code logic, data or results.
+
 ### v2.0.5 — JMIR copyediting alignment (2026-09-18)
 Documentation-only release marking the state of the archive at JMIR submission. The two archived principal-model fits and the values reported in the manuscript are now listed side by side in this README, matching the reproducibility disclosure added to the manuscript Methods. A script comment referred to "Table S4 **of** Multimedia Appendix 1"; the submitted manuscript uses "**in** Multimedia Appendix N" throughout, and the comment is aligned. No change to code logic, data or results.
 

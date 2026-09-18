@@ -8,7 +8,7 @@ The analysis uses aggregated district-year counts and administrative indicators;
 - Community-health, demographic, fiscal and healthcare indicators: Korean Statistical Information Service and associated public administrative statistics
 - Water supply, sewerage, groundwater use and groundwater-quality testing: Korean environmental and water-related public-data sources
 - Land use and district boundaries: Korean land and administrative-boundary public-data sources
-- Livestock and shellfish production: Korean agricultural and fisheries public statistics
+- Livestock and shellfish production: Korean agricultural and fisheries statistics (Statistics Korea fishery production, livestock-rearing farm and census-of-agriculture series); some district-level livestock series were obtained through information-disclosure requests rather than downloaded from a public portal
 
 The corrected loader documents the Korean source filenames expected from the archived working directory. Biennially available administrative measures are carried to adjacent years as described in the manuscript.
 
