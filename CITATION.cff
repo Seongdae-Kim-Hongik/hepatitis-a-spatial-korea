@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use this reproducibility package, please cite the associated article and the archived software release (concept DOI 10.5281/zenodo.20725490)."
 title: "Spatial Clustering of Hepatitis A in South Korea, 2020-2024: A Nationwide Bayesian Analysis of Groundwater, Land Cover, and Socioeconomic Gradients (analysis code, data-repair log and compiled data)"
 type: software
-version: 2.1.0
+version: 2.1.1
 date-released: 2026-09-18
 doi: 10.5281/zenodo.20725490
 authors:
@@ -12,7 +12,7 @@ authors:
     orcid: "https://orcid.org/0000-0002-1525-0091"
   - family-names: Chun
     given-names: Byung Chul
-    affiliation: Korea University College of Medicine
+    affiliation: "Korea University College of Medicine; Korea University Graduate School"
 repository-code: "https://github.com/Seongdae-Kim-Hongik/hepatitis-a-spatial-korea"
 license: MIT
 keywords:

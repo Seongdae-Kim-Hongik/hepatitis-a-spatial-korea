@@ -53,7 +53,7 @@ A Bayesian negative-binomial disease-mapping analysis of district-level hepatiti
 | `make_figures.R` | Figure 2 and the supplementary model figures from the script outputs |
 | `qa/year_r2_screen.py`, `qa/year_r2_before_after.py` | Year-R² screen for covariates that encode data availability instead of a district characteristic |
 | `results/analysis_dataset_compiled.csv` | The exact 1,100-row district-year analytic table (repaired) |
-| `results/data_repair_log.csv`, `results/year_r2_before_after.csv` | Per-variable counts of values recoded as missing and of missing values before/after filling; share of covariate variance explained by calendar year before (v2.0.6 dataset) and after repair |
+| `results/data_repair_log.csv`, `results/year_r2_before_after.csv` | Per-variable counts of values recoded as missing and of missing values before/after filling; share of covariate variance explained by calendar year before (v2.0.6 dataset), after recovery of the zero-coded values alone, and after the full repair |
 | `results/covariate_dictionary.csv` | Applied transformation, cut points, descriptive statistics, number of districts constant over years |
 | `results/table2_principal_IRR.csv` | 27 incidence-rate ratios with 95% credible intervals (manuscript Table 2; unrounded) |
 | `results/model_comparison.csv`, `results/repeated_fits.csv` | M1–M6 DIC/WAIC/effective parameters; run-to-run ranges |
@@ -90,6 +90,9 @@ Annual district-level HAV notifications are released by the **Korea Disease Cont
 MIT (see `LICENSE`). Archived on Zenodo — concept DOI (all versions): https://doi.org/10.5281/zenodo.20725490
 
 ## Changelog
+
+### v2.1.1 — traceability (2026-09-18)
+Documentation-only. `results/year_r2_before_after.csv` gains the column `year_r2_after_zero_recovery_only` (the year-R² of each covariate after the zero-coded values had been recovered but before the series-break rule R4 existed; 0.79 for older adults living alone, the value quoted in the manuscript), produced by an optional fourth argument of `qa/year_r2_before_after.py`. Author affiliations completed in the archive metadata. No change to code logic, data or results.
 
 ### v2.1.0 — data-repair release (2026-09-18)
 - **Data repair.** Values stored as 0 when unavailable, percentages above 100 and redefined series-years are recoded as missing and filled with the most recent earlier available year of the same district (section `[2b]`; `results/data_repair_log.csv`). Functional-form coding no longer turns missing values into 0. Analytic sample 1,112 → 1,100 district-years (220 districts).
