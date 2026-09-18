@@ -1,6 +1,6 @@
 # =============================================================================
-# Reproducible analysis code (v2.1.2; analysis identical to the v2.1.0 data-repair release)
-# "Spatial Clustering of Hepatitis A in South Korea, 2020-2024: A Nationwide
+# Reproducible analysis code (v2.2.0; adopts extreme-value rule R7 in the principal analysis)
+# "Spatial Clustering of Hepatitis A in South Korea, 2020-2024: Nationwide
 #  Bayesian Analysis of Groundwater, Land Cover, and Socioeconomic Gradients"
 # Seongdae Kim, Byung Chul Chun.
 # Prepared for submission to JMIR Public Health and Surveillance (Original Paper).
@@ -86,6 +86,9 @@ YEAR_START   <- 2020
 YEAR_END     <- 2024
 VIF_THRESHOLD <- 10            # collinearity screen (forced confounders are never dropped)
 MIN_OBS      <- 20             # minimum non-missing district-years to use a covariate
+# (R7) extreme-value rule of the principal analysis; EXTREME_RULE=false reproduces the v2.1.x frame without it
+APPLY_EXTREME_RULE <- toupper(Sys.getenv("EXTREME_RULE", unset = "true")) == "TRUE"
+EXTREME_K <- 5                 # flagged when a value lies more than EXTREME_K interquartile ranges beyond the quartiles
 
 # Input directory: ./data by default, override with HAV_DATA_DIR.
 BASE_IV <- Sys.getenv("HAV_DATA_DIR", unset = file.path(getwd(), "data"))
@@ -379,6 +382,46 @@ apply_form <- function(x, form, hz) {
 
 df_w <- cor_merged %>% filter(population > 0, region %in% shp_main$region)
 TV <- TV[TV$code %in% names(df_w), ]
+# (R7) Extreme-value rule. Among rate, percentage and cost covariates, a value lying more than EXTREME_K interquartile
+#      ranges below the first or above the third quartile of the graph district-years is treated as an aggregation
+#      error (e.g., a sex ratio of 49 and 51 males per 100 females in two cities with non-autonomous wards in 2024;
+#      basic-livelihood recipients of 35-38% in two such cities) -> NA, then filled within the study years by rule R5.
+#      A district whose values are all flagged cannot be filled and leaves the analysis under the complete-case rule.
+#      Count covariates are not screened (genuinely skewed). The frame without this rule is refitted in section [11].
+apply_extreme_rule <- function(dfw) {
+  fl <- list()
+  for (i in seq_len(nrow(TV))) {
+    code <- TV$code[i]; if (!code %in% RATE_VARS) next
+    x <- as.numeric(dfw[[code]]); q <- quantile(x, c(.25, .75), na.rm = TRUE); k <- EXTREME_K * diff(q)
+    bad <- !is.na(x) & (x < q[1] - k | x > q[2] + k); if (!any(bad)) next
+    fl[[code]] <- data.frame(covariate = TV$eng[i], region = dfw$region[bad], year = dfw$year[bad], value = x[bad],
+                             q1 = unname(q[1]), q3 = unname(q[2]), stringsAsFactors = FALSE)
+    x[bad] <- NA
+    for (g in unique(dfw$region[bad])) { j <- which(dfw$region == g); x[j] <- nearest_fill(dfw$year[j], x[j])$x }
+    fl[[code]]$filled_value <- x[which(bad)]
+    dfw[[code]] <- x
+  }
+  list(data = dfw, flags = do.call(rbind, fl))
+}
+df_w_noR7 <- df_w
+EXT_FLAGS <- NULL
+if (APPLY_EXTREME_RULE) { r7 <- apply_extreme_rule(df_w); df_w <- r7$data; EXT_FLAGS <- r7$flags
+  cat(sprintf("  (R7) extreme-value rule: %d district-years flagged in %d covariates\n", nrow(EXT_FLAGS), length(unique(EXT_FLAGS$covariate)))) }
+if (!is.null(EXT_FLAGS)) write.csv(EXT_FLAGS, file.path(OUT_DIR, "extreme_value_flags.csv"), row.names = FALSE, fileEncoding = "UTF-8")
+# make_design(): functional forms + z scores over the graph district-years (also used for the sensitivity frames of [11])
+make_design <- function(dfw, sewer_log = FALSE) {
+  de <- dfw; zc <- character(0)
+  for (i in seq_len(nrow(TV))) {
+    code <- TV$code[i]; x <- as.numeric(dfw[[code]])
+    nv <- sum(!is.na(x) & is.finite(x)); if (nv < MIN_OBS) next
+    hz <- sum(!is.na(x) & is.finite(x) & x == 0) / nv * 100 > 20
+    form <- if (TV$eng[i] == "sex_ratio") "raw" else TV$form[i]
+    if (sewer_log && TV$eng[i] == "sewer_repair") form <- "log1p"
+    val <- apply_form(x, form, hz); s <- sd(val, na.rm = TRUE); m <- mean(val, na.rm = TRUE)
+    zn <- paste0(TV$eng[i], "_z"); de[[zn]] <- if (!is.na(s) && s > 0) (val - m) / s else val; zc <- c(zc, zn)
+  }
+  de
+}
 data_ext <- df_w
 zcols <- character(0); DICT <- list()
 for (i in seq_len(nrow(TV))) {
@@ -436,10 +479,10 @@ cat(sprintf("  covariates entering INLA: %d (VIF < %d)\n", length(covs), VIF_THR
 # district (idarea) and year (idtime) with a space-time interaction index.
 rmap <- data.frame(region = shp_main$region, idarea = seq_len(nrow(shp_main)))
 ymap <- data.frame(year = YEAR_START:YEAR_END, idtime = seq_along(YEAR_START:YEAR_END))
-ic <- data_ext[complete.cases(data_ext[, covs]), ] %>%
+make_frame <- function(de) { f <- de[complete.cases(de[, covs]), ] %>%
   left_join(rmap, by = "region") %>% left_join(ymap, by = "year") %>%
-  arrange(idarea, idtime)
-ic$idarea_time <- seq_len(nrow(ic))
+  arrange(idarea, idtime); f$idarea_time <- seq_len(nrow(f)); f }
+ic <- make_frame(data_ext)
 cat(sprintf("  analysis frame: N = %d district-years | EPV = %.1f\n",
             nrow(ic), nrow(ic) / length(covs)))
 write.csv(ic, file.path(OUT_DIR, "analysis_dataset_compiled.csv"),
@@ -734,35 +777,13 @@ fe1 <- fit_alt(ic_oy, covs); fe2_ <- fit_alt(ic, setdiff(covs, "oyster_z"))
 write.csv(rbind(rows_oy(M6, "principal"), rows_oy(fe1, "oyster_ever_producer"), rows_oy(fe2_, "oyster_dropped")),
           file.path(OUT_DIR, "sens_oyster_coverage.csv"), row.names = FALSE)
 print(tS6, row.names = FALSE)
-# (f) extreme-value screen (post hoc). Among rate/percentage/cost covariates, values beyond 5 interquartile ranges
-#     from the quartiles are flagged. Several of them (sex ratio of 49 and 51 males per 100 females; basic-livelihood
-#     recipients of 35-38%) look like aggregation errors of the same kind as rule R3; all but one of these occur in
-#     cities with non-autonomous wards. Sewer-pipe repair sites enters the model as a raw count whose maximum exceeds 500 times the third
-#     quartile. Three refits: (f1) flagged values set to NA, filled within the study years by rule R5, covariate
-#     re-transformed, unfillable district-years dropped; (f2) sewer-pipe repair sites as log(1 + x); (f3) both.
-mk_extreme <- function(recode, sewer_log) {
-  d <- ic; fl <- list()
-  for (i in seq_len(nrow(TV))) {
-    code <- TV$code[i]; zn <- paste0(TV$eng[i], "_z"); if (!zn %in% covs || !code %in% names(d)) next
-    x <- as.numeric(d[[code]]); form <- if (TV$eng[i] == "sex_ratio") "raw" else TV$form[i]; touched <- FALSE
-    if (recode && code %in% RATE_VARS) {
-      q <- quantile(x, c(.25, .75), na.rm = TRUE); k <- 5 * diff(q); bad <- !is.na(x) & (x < q[1] - k | x > q[2] + k)
-      if (any(bad)) {
-        fl[[code]] <- data.frame(covariate = TV$eng[i], region = d$region[bad], year = d$year[bad], value = x[bad])
-        x[bad] <- NA
-        for (g in unique(d$region[bad])) { j <- which(d$region == g); x[j] <- nearest_fill(d$year[j], x[j])$x }
-        touched <- TRUE
-      }
-    }
-    if (sewer_log && TV$eng[i] == "sewer_repair") { form <- "log1p"; touched <- TRUE }
-    if (touched) { nv <- sum(!is.na(x)); hz <- sum(!is.na(x) & x == 0) / nv * 100 > 20
-      val <- apply_form(x, form, hz); d[[zn]] <- (val - mean(val, na.rm = TRUE)) / sd(val, na.rm = TRUE) }
-  }
-  list(data = d[complete.cases(d[, covs]), ], flags = do.call(rbind, fl))
-}
-ext <- list(extreme_values_recoded = mk_extreme(TRUE, FALSE), sewer_repair_log = mk_extreme(FALSE, TRUE), both = mk_extreme(TRUE, TRUE))
-write.csv(ext$extreme_values_recoded$flags, file.path(OUT_DIR, "extreme_value_flags.csv"), row.names = FALSE, fileEncoding = "UTF-8")
-sx <- do.call(rbind, lapply(names(ext), function(nm) { dd <- ext[[nm]]$data; f <- fit_alt(dd, covs); fe_ <- f$summary.fixed[covs, ]
+# (f) Sensitivity to the extreme-value rule R7 and to the scale of sewer-pipe repair sites, a raw count whose maximum
+#     exceeds 500 times its third quartile: (f1) flagged values retained (the v2.1.x frame); (f2) sewer-pipe repair
+#     sites as log(1 + x); (f3) both.
+ext <- list(flagged_values_retained = make_frame(make_design(df_w_noR7)),
+            sewer_repair_log        = make_frame(make_design(df_w, sewer_log = TRUE)),
+            retained_and_sewer_log  = make_frame(make_design(df_w_noR7, sewer_log = TRUE)))
+sx <- do.call(rbind, lapply(names(ext), function(nm) { dd <- ext[[nm]]; f <- fit_alt(dd, covs); fe_ <- f$summary.fixed[covs, ]
   cat(sprintf("  (f) %-24s N = %d | credible: %s\n", nm, nrow(dd), paste(sub("_z$", "", covs[fe_$`0.025quant` > 0 | fe_$`0.975quant` < 0]), collapse = ",")))
   data.frame(spec = nm, covariate = covs, IRR = round(exp(fe_$mean), 6), lo = round(exp(fe_$`0.025quant`), 6), hi = round(exp(fe_$`0.975quant`), 6),
              credible = as.integer(fe_$`0.025quant` > 0 | fe_$`0.975quant` < 0), N = nrow(dd), districts = length(unique(dd$region)),
