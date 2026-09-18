@@ -1,5 +1,5 @@
 # =============================================================================
-# Reproducible analysis code (v2.2.0; adopts extreme-value rule R7 in the principal analysis)
+# Reproducible analysis code (v2.3.0; extreme-value rule R7 and Busanjin-gu restoration R0 in the principal analysis)
 # "Spatial Clustering of Hepatitis A in South Korea, 2020-2024: Nationwide
 #  Bayesian Analysis of Groundwater, Land Cover, and Socioeconomic Gradients"
 # Seongdae Kim, Byung Chul Chun.
@@ -27,7 +27,7 @@
 # Model: Bayesian negative-binomial disease mapping with a Besag-York-Mollie
 #  (BYM) convolution + first-order temporal random walk (RW1) + Knorr-Held
 #  Type I space-time interaction, fitted by INLA (R-INLA). The contiguity graph
-#  has 223 districts; with rule R7 applied (default), 218 districts (1,090
+#  has 223 districts; with rules R0 and R7 applied (default), 219 districts (1,095
 #  district-years, 2020-2024) have complete, non-flagged covariates and enter the
 #  likelihood. 27 final covariates.
 #
@@ -56,7 +56,7 @@
 #  Korea Disease Control and Prevention Agency (KDCA) Infectious Disease Portal
 #  (https://dportal.kdca.go.kr); covariates come from KOSIS and the open-data
 #  portals of the relevant Korean ministries. Raw source extracts are NOT
-#  redistributed here; the compiled 1,090-row district-year analytic table is
+#  redistributed here; the compiled 1,095-row district-year analytic table is
 #  provided in results/analysis_dataset_compiled.csv. Place the raw input
 #  files under ./data (or set the HAV_DATA_DIR environment variable) to rebuild
 #  it from source. No personally identifiable information is used
@@ -287,11 +287,47 @@ selected <- list(
   "elderly_singleperson.csv|고령인구_전처리.csv" = c("1인가구_80~84세"),
   "land_use.csv|국토이용현황_전처리_수정.csv" = c("답", "임야", "대"),
   "shellfish.csv|어패류_패류_전처리.csv" = c("굴_자연채묘 생산량(kg)"))
+# (R0) Restoration of a district lost when the sewerage extracts were compiled. The compilation step stripped a
+#      leading province abbreviation from district names, so "부산진구" (Busan) became "진구", failed to match the
+#      boundary file, and was written back as an all-zero row in every year. Its values are restored from an earlier
+#      compilation of the same Ministry of Environment sewerage statistics (data_patches/busanjin_sewerage_restore.csv;
+#      the 2023 values agree with the 2023 sewerage yearbook and the coverage series with KOSIS DT_1YL20751). A patch is
+#      applied only where the source holds no non-zero value for that district and variable. Set HAV_PATCH=false to skip.
+PATCH_FILE <- c(Sys.getenv("HAV_PATCH_FILE"), file.path(getwd(), "data_patches", "busanjin_sewerage_restore.csv"),
+                file.path(BASE_IV, "busanjin_sewerage_restore.csv"))
+PATCH_FILE <- PATCH_FILE[nzchar(PATCH_FILE) & file.exists(PATCH_FILE)][1]
+PATCH <- if (!is.na(PATCH_FILE) && toupper(Sys.getenv("HAV_PATCH", unset = "true")) == "TRUE")
+  read.csv(PATCH_FILE, stringsAsFactors = FALSE, check.names = FALSE, fileEncoding = "UTF-8") else NULL
+PATCH_LOG <- data.frame()
+apply_patch <- function(raw, aliases) {
+  if (is.null(PATCH)) return(raw)
+  pt <- PATCH[PATCH$source_file %in% aliases, ]; if (!nrow(pt)) return(raw)
+  for (v in unique(pt$variable)) {
+    if (!v %in% names(raw)) next
+    raw[[v]] <- suppressWarnings(as.numeric(raw[[v]]))
+    for (g in unique(pt$region[pt$variable == v])) {
+      cur <- raw[[v]][raw$region == g]
+      if (any(!is.na(cur) & cur != 0)) next                       # the source already carries values: leave untouched
+      raw[[v]][raw$region == g] <- NA                             # years absent from the patch stay missing (rule R5 fills)
+      pv <- pt[pt$variable == v & pt$region == g, ]
+      for (k in seq_len(nrow(pv))) {
+        hit <- raw$region == g & raw$year == pv$year[k]
+        if (any(hit)) raw[[v]][hit] <- pv$value[k] else {
+          nr <- raw[1, , drop = FALSE]; nr[1, ] <- NA; nr$region <- g; nr$year <- pv$year[k]; nr[[v]] <- pv$value[k]
+          raw <- rbind(raw, nr) }
+      }
+      PATCH_LOG <<- rbind(PATCH_LOG, data.frame(source_file = aliases[length(aliases)], region = g, variable = v,
+        values_restored = nrow(pv), study_years_restored = sum(pv$year >= YEAR_START & pv$year <= YEAR_END)))
+    }
+  }
+  raw
+}
 for (fn in names(selected)) {
   aliases <- strsplit(fn, "|", fixed = TRUE)[[1]]
   fp <- pick_input(aliases); if (!file.exists(fp)) next
   raw <- read_csv_safe(fp); if (is.null(raw)) next
   raw <- raw %>% clean_region_all()
+  raw <- apply_patch(raw, c(aliases, basename(fp)))
   av <- intersect(selected[[fn]], names(raw)); if (length(av) == 0) next
   agg <- repair_and_fill(raw[, c("region", "year", av)], av, basename(fp)) %>%
     filter(year >= YEAR_START, year <= YEAR_END)
@@ -300,6 +336,8 @@ for (fn in names(selected)) {
 }
 cat(sprintf("  merged: %d rows x %d columns\n", nrow(cor_merged), ncol(cor_merged)))
 write.csv(REPAIR_LOG, file.path(OUT_DIR, "data_repair_log.csv"), row.names = FALSE, fileEncoding = "UTF-8")
+if (nrow(PATCH_LOG)) { write.csv(PATCH_LOG, file.path(OUT_DIR, "data_patch_log.csv"), row.names = FALSE, fileEncoding = "UTF-8")
+  cat("  (R0) restored district values:\n"); print(PATCH_LOG, row.names = FALSE) }
 cat("  data repair log:\n"); print(REPAIR_LOG[REPAIR_LOG$zeros_set_NA_study_years > 0 | REPAIR_LOG$NA_study_years_before_fill > 0, c("variable","zeros_set_NA_study_years","over100_set_NA_study_years","noncomparable_years","NA_study_years_after_fill")], row.names = FALSE)
 
 # ---------------------------------------------------------------------------
@@ -696,7 +734,7 @@ for (gn in names(graphs)) {
 cat("  credible across graphs (out of 8):\n")
 for (c in cred) cat(sprintf("    %-18s %d/8\n", c, graph_cred[c]))
 write.csv(do.call(rbind, graph_irr), file.path(OUT_DIR, "graph_sensitivity.csv"), row.names = FALSE)
-# counts restricted to the analysed districts (column suffix _220 is retained from the v2.1.x file name; the analysed set is now 218 districts with rule R7 applied)
+# counts restricted to the analysed districts (column suffix _220 is retained from the v2.1.x file name; the analysed set is now 219 districts with rules R0 and R7 applied)
 write.csv(do.call(rbind, graph_cnt), file.path(OUT_DIR, "graph_counts_analysed220.csv"), row.names = FALSE)
 
 # ---------------------------------------------------------------------------
@@ -706,7 +744,7 @@ cat("\n## [10] Getis-Ord Gi* (Figure S2, Multimedia Appendix 3)\n")
 nb_self <- include.self(nb_obj)
 lw_self <- nb2listw(nb_self, style = "B", zero.policy = TRUE)
 # Descriptive Gi* uses the observed crude rate of ALL graph districts. Outcome data exist for every
-# district; only covariates are missing (or flagged by rule R7) for the 5 complete-case exclusions.
+# district; only covariates are missing (or flagged by rule R7) for the 4 complete-case exclusions.
 # (v2.1 fix: these districts were previously entered as rate = 0, which produced spurious cold spots.)
 rv_full <- data_ext %>% group_by(region) %>%
   summarise(rate = sum(cases) / sum(population) * 1e5, cases = sum(cases), .groups = "drop")
