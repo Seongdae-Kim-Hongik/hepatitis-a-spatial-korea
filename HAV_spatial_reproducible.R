@@ -131,7 +131,7 @@ clean_region <- function(df) df %>% mutate(
 #  * whole survey years are 0 for food security (2020-2023), basic-livelihood
 #    recipients and wastewater-discharge facilities (2021-2023; 2024 absent), elderly
 #    living alone (2021) and groundwater-quality tests (every year before 2023; 2024 absent);
-#  * inpatient medical cost is 0 for 81 additional districts in 2023 and absent for 2024;
+#  * inpatient medical cost is 0 in 85 districts in 2023 (4 in each of 2020-2022) and absent for 2024 in all but 4 districts;
 #  * binary coding silently turned NA into 0 (groundwater wells 2023-2024).
 # Repair rules, applied to the full 2008-2024 history before restricting to the study years:
 #  (R1) rate/percentage/cost covariates cannot be 0 -> any 0 is set to NA;
