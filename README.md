@@ -95,6 +95,9 @@ MIT (see `LICENSE`). Archived on Zenodo — concept DOI (all versions): https://
 
 ## Changelog
 
+### v2.3.2 — documentation correction (2026-09-19)
+Documentation-only. The script header still read v2.3.0; a script comment and `DATA_PROVENANCE.md` called the analysis without R7 "the v2.1.x frame" (with R0 it has 221 districts, 1,105 district-years); and the R7 comment placed both sex-ratio outliers in cities with non-autonomous wards (only Changwon-si has them; the other is Namyangju-si). No change to code logic, data or results.
+
 ### v2.3.1 — documentation correction (2026-09-19)
 Documentation-only. Script comments still described 3 unclassified graph districts and said that `EXTREME_RULE=false` reproduces the v2.1.x frame (with rule R0 it gives 221 districts / 1,105 district-years; add `HAV_PATCH=false` for the v2.1.x frame); the README's v2.2.0 note implied that sewer-pipe repair sites depends on rule R7 (from v2.3.0 it does not); the DATA_PROVENANCE heading named only the v2.1 rules. No change to code logic, data or results.
 

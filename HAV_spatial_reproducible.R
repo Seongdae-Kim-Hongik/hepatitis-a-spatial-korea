@@ -1,5 +1,5 @@
 # =============================================================================
-# Reproducible analysis code (v2.3.0; extreme-value rule R7 and Busanjin-gu restoration R0 in the principal analysis)
+# Reproducible analysis code (v2.3.2; extreme-value rule R7 and Busanjin-gu restoration R0 in the principal analysis)
 # "Spatial Clustering of Hepatitis A in South Korea, 2020-2024: Nationwide
 #  Bayesian Analysis of Groundwater, Land Cover, and Socioeconomic Gradients"
 # Seongdae Kim, Byung Chul Chun.
@@ -432,7 +432,7 @@ df_w <- cor_merged %>% filter(population > 0, region %in% shp_main$region)
 TV <- TV[TV$code %in% names(df_w), ]
 # (R7) Extreme-value rule. Among rate, percentage and cost covariates, a value lying more than EXTREME_K interquartile
 #      ranges below the first or above the third quartile of the graph district-years is treated as an aggregation
-#      error (e.g., a sex ratio of 49 and 51 males per 100 females in two cities with non-autonomous wards in 2024;
+#      error (e.g., a sex ratio of 49 and 51 males per 100 females in 2 districts in 2024, 1 of them a city with non-autonomous wards;
 #      basic-livelihood recipients of 35-38% in two such cities) -> NA, then filled within the study years by rule R5.
 #      A district whose values are all flagged cannot be filled and leaves the analysis under the complete-case rule.
 #      Count covariates are not screened (genuinely skewed). The frame without this rule is refitted in section [11].
@@ -827,7 +827,7 @@ write.csv(rbind(rows_oy(M6, "principal"), rows_oy(fe1, "oyster_ever_producer"), 
           file.path(OUT_DIR, "sens_oyster_coverage.csv"), row.names = FALSE)
 print(tS6, row.names = FALSE)
 # (f) Sensitivity to the extreme-value rule R7 and to the scale of sewer-pipe repair sites, a raw count whose maximum
-#     exceeds 500 times its third quartile: (f1) flagged values retained (the v2.1.x frame); (f2) sewer-pipe repair
+#     exceeds 500 times its third quartile: (f1) flagged values retained (R0-R6 applied; 221 districts); (f2) sewer-pipe repair
 #     sites as log(1 + x); (f3) both.
 ext <- list(flagged_values_retained = make_frame(make_design(df_w_noR7)),
             sewer_repair_log        = make_frame(make_design(df_w, sewer_log = TRUE)),
