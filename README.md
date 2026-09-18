@@ -20,7 +20,10 @@ A Bayesian negative-binomial disease-mapping analysis of district-level hepatiti
 **Interpretation.** The final 27-covariate specification was developed through exploratory model building. This package reproduces the selected final model; it does not convert the analysis into a prospectively specified confirmatory study. The reported credible associations are hypothesis-generating.
 
 ## Reproduced headline numbers (principal model M6, N = 1,112)
-- DIC ≈ 5,716; WAIC ≈ 5,729; residual Moran's I = +0.053 (p = 0.090)
+- Two principal-model fits are archived here, and both are reported explicitly because neither reproduces the manuscript's fit criteria to the second decimal place:
+  - `results/core_run.log`: DIC 5,712.31; WAIC 5,728.34; residual Moran's I = +0.0536 (p = 0.0886); 87 high-risk, 72 low-risk districts
+  - `results/core_diagnostics.csv` / `results/fast_principal_run.log`: DIC 5,716.15; WAIC 5,730.52; residual Moran's I = +0.0545 (p = 0.0855); 88 high-risk, 72 low-risk districts
+  - The manuscript reports DIC 5,716.29; WAIC 5,729.22; residual Moran I = +0.053 (P = .09); 88 high-risk districts, and discloses the `core_run.log` values as a version-dependent reproducibility check. Effect directions and credible-interval classifications are identical across all three; the 27 incidence-rate ratios in `results/table2_principal_IRR.csv` match manuscript Table 2 to 3 decimal places
 - 9 credible covariates, named as in manuscript Table 2: water-supply coverage, household groundwater wells, dairy-cattle farms, residential land area, inpatient medical cost — risk-elevating; forest area, sewer-pipe repair, single-person elderly (80–84 y), fiscal independence — protective
 - Seven of the nine associations persist under all eight neighbourhood definitions; fiscal independence is credible in seven of eight (not under the sparsest k = 2 graph) and residential land area in only the two contiguity graphs, the only purely local (adjacent-district) signal
 
@@ -59,6 +62,9 @@ Annual district-level HAV notifications are released by the **Korea Disease Cont
 MIT (see `LICENSE`). Archived on Zenodo — concept DOI (all versions): https://doi.org/10.5281/zenodo.20725490
 
 ## Changelog
+
+### v2.0.5 — JMIR copyediting alignment (2026-09-18)
+Documentation-only release marking the state of the archive at JMIR submission. The two archived principal-model fits and the values reported in the manuscript are now listed side by side in this README, matching the reproducibility disclosure added to the manuscript Methods. A script comment referred to "Table S4 **of** Multimedia Appendix 1"; the submitted manuscript uses "**in** Multimedia Appendix N" throughout, and the comment is aligned. No change to code logic, data or results.
 
 ### v2.0.4 — JMIR Public Health and Surveillance submission (2026-09-17)
 Manuscript title (JMIR title case, year moved before the colon) and target journal updated to the version submitted to *JMIR Public Health and Surveillance*; supplementary material is now referenced as Multimedia Appendix 1 (tables) and Multimedia Appendix 2 (figures). No change to code logic, data or results.

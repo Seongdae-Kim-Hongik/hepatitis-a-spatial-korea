@@ -27,7 +27,7 @@
 #  * Principal model M6  (DIC 5,716.29; WAIC 5,729.22; residual Moran's I
 #    +0.053, p = 0.090)
 #  * 27 covariate incidence-rate ratios, 9 credible
-#    (Table 2; transforms in Table S4 of Multimedia Appendix 1)
+#    (Table 2; transforms in Table S4 in Multimedia Appendix 1)
 #  * Model comparison M1-M6 (Table S1, Multimedia Appendix 1) and global Moran's I
 #    (Table S3, Multimedia Appendix 1)
 #  * 8-graph neighbourhood sensitivity, Queen/Rook + k-NN, k = 2-7
