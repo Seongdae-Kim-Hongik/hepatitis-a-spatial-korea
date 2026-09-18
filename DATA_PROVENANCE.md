@@ -19,14 +19,14 @@ Several source files store unavailable values as 0 rather than as missing, and s
 | Rule | Action |
 |---|---|
 | R1 | A value of 0 in a rate, percentage or cost covariate is recoded as missing |
-| R1b | Inpatient medical cost is kept as a structural 0 in districts with at most one positive year in the whole history (no inpatient facility); the single stray positive value is set to 0 |
+| R1b | Inpatient medical cost is kept as a structural 0 in districts with at most one positive year in the whole history (no inpatient facility; 1 district, Yangyang-gun); the single stray positive value is set to 0 |
 | R2 | In count covariates, a year is recoded as missing when at least 90% of the districts with data are 0 in that year and the other years are mostly non-zero; genuinely sparse covariates (eg, oyster production) are left unchanged |
 | R3 | Percentages above 100 are recoded as missing |
 | R4 | For rate, percentage and cost covariates, a year whose national median departs by a factor of more than 1.6 from the median of the (up to four) nearest years is treated as non-comparable and recoded as missing (older adults living alone 2024; inpatient medical cost 2019) |
 | R5 | Missing values are filled with the value of the most recent earlier available year of the same district, or of the nearest later year when no earlier value exists |
 | R6 | Binary, tertile and quartile coding preserves missing values (no silent conversion to 0 or to the lowest class) |
 
-`results/data_repair_log.csv` gives, per source variable, the number of study-year values affected by R1, R3 and R4 and the number of missing values before and after filling. Districts that still have missing values after filling (Jeju-si and Seogwipo-si: no fiscal statistics of their own; Jeju-si and Busanjin-gu: their records in the compiled sewerage files contain no non-zero value in any field or year, which indicates a linkage failure during compilation of the source rather than true absence; the original values could not be recovered) are excluded under a complete-case rule.
+`results/data_repair_log.csv` gives, per source variable, the number of study-year values recoded as missing under R1 or R2 (one column; R1 applies to rate, percentage and cost covariates and R2 to count covariates), R3 and R4 and the number of missing values before and after filling. Districts that still have missing values after filling (Jeju-si and Seogwipo-si: no fiscal statistics of their own; Jeju-si and Busanjin-gu: their records in the compiled sewerage files contain no non-zero value in any field or year, which indicates a linkage failure during compilation of the source rather than true absence; the original values could not be recovered) are excluded under a complete-case rule.
 
 Because only one year of data exists, basic livelihood security recipients and wastewater-discharging facilities (2020) and groundwater-quality tests (2023) are constant over the study years after filling. A further limitation is handled by sensitivity analysis: oyster production is available only for 2020, 2022 and 2023, and the 2020 file omits the major producing districts Tongyeong, Goseong and Yeosu (`results/sens_oyster_coverage.csv`).
 

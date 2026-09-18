@@ -14,7 +14,7 @@ An audit of the compiled dataset shipped with v2.0.x found that several administ
 
 - piped water-supply coverage was 0 in every study year for the 76 autonomous districts of the metropolitan cities and Jeju (77 from 2023), because it has been published only for each metropolitan city as a whole since 2018;
 - whole survey years were 0 for the food-security rate (2020–2023), basic livelihood security recipients and wastewater-discharging facilities (2021–2023; 2024 absent), older adults living alone (2021) and groundwater-quality tests (every year before 2023; 2024 absent);
-- inpatient medical cost was 0 in 81 districts in 2023 (not released) and absent for 2024, and its 2019 level was about three times that of any other year;
+- inpatient medical cost was 0 in 85 districts in 2023 (not released; 4 in each of the 3 preceding years) and absent for 2024 in all but 4 districts, where it was stored as 0 (`results/inpatient_cost_zero_audit.csv`), and its 2019 level was about three times that of any other year;
 - the series for older adults living alone was replaced by a different indicator in 2024 (national median 23.6 → 59.5);
 - the urban-area population proportion exceeded 100% in 2020 in 10 cities with non-autonomous wards (ward values summed).
 
@@ -52,6 +52,7 @@ A Bayesian negative-binomial disease-mapping analysis of district-level hepatiti
 | `HAV_spatial_reproducible.R` | Single script: data repair, model fits, all sensitivity and stability analyses |
 | `make_figures.R` | Figure 2 and the supplementary model figures from the script outputs |
 | `qa/year_r2_screen.py`, `qa/year_r2_before_after.py` | Year-R² screen for covariates that encode data availability instead of a district characteristic |
+| `qa/inpatient_cost_zero_audit.py`, `results/inpatient_cost_zero_audit.csv` | Year-by-year counts of 0 and missing values of inpatient medical cost in the source file; reconciles the 96 recoded values and the 321 missing values of `results/data_repair_log.csv` |
 | `results/analysis_dataset_compiled.csv` | The exact 1,100-row district-year analytic table (repaired) |
 | `results/data_repair_log.csv`, `results/year_r2_before_after.csv` | Per-variable counts of values recoded as missing and of missing values before/after filling; share of covariate variance explained by calendar year before (v2.0.6 dataset), after recovery of the zero-coded values alone, and after the full repair |
 | `results/covariate_dictionary.csv` | Applied transformation, cut points, descriptive statistics, number of districts constant over years |
@@ -90,6 +91,9 @@ Annual district-level HAV notifications are released by the **Korea Disease Cont
 MIT (see `LICENSE`). Archived on Zenodo — concept DOI (all versions): https://doi.org/10.5281/zenodo.20725490
 
 ## Changelog
+
+### v2.1.2 — documentation correction (2026-09-18)
+Documentation-only. The description of inpatient medical cost is corrected: the source file stores 0 in 85 districts in 2023 (not 81) and in 4 districts in each of 2020–2022, and in 2024 it stores 0 in 4 districts and is empty in the other 225. One district (Yangyang-gun) meets the structural-zero rule R1b, so 84 + 3 × 4 = 96 values were recoded as missing and 96 + 225 = 321 were missing before filling, as already logged in `results/data_repair_log.csv`. `qa/inpatient_cost_zero_audit.py` and `results/inpatient_cost_zero_audit.csv` are added to document this. `DATA_PROVENANCE.md` now names every rule counted in the repair log. No change to code logic, data or results.
 
 ### v2.1.1 — traceability (2026-09-18)
 Documentation-only. `results/year_r2_before_after.csv` gains the column `year_r2_after_zero_recovery_only` (the year-R² of each covariate after the zero-coded values had been recovered but before the series-break rule R4 existed; 0.79 for older adults living alone, the value quoted in the manuscript), produced by an optional fourth argument of `qa/year_r2_before_after.py`. Author affiliations completed in the archive metadata. No change to code logic, data or results.

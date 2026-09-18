@@ -1,5 +1,5 @@
 # =============================================================================
-# Reproducible analysis code (v2.1.0, data-repair release)
+# Reproducible analysis code (v2.1.2; analysis identical to the v2.1.0 data-repair release)
 # "Spatial Clustering of Hepatitis A in South Korea, 2020-2024: A Nationwide
 #  Bayesian Analysis of Groundwater, Land Cover, and Socioeconomic Gradients"
 # Seongdae Kim, Byung Chul Chun.
