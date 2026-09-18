@@ -20,7 +20,8 @@
 # WHY v2.2.0: a post hoc screen of the v2.1.x repaired analysis for values lying
 #  more than 5 interquartile ranges beyond the quartiles of the study years found
 #  further apparent aggregation errors (rule R7, applied by default; set
-#  EXTREME_RULE=false to reproduce the v2.1.x frame without it). Two districts
+#  EXTREME_RULE=false to fit the frame without it: 221 districts, 1,105 district-years
+#  with rule R0 applied, or the v2.1.x frame of 220 / 1,100 with HAV_PATCH=false as well). Two districts
 #  (Suwon-si, Seongnam-si) could not be filled and now leave the analysis. See
 #  README.md and DATA_PROVENANCE.md.
 #
@@ -94,7 +95,8 @@ YEAR_START   <- 2020
 YEAR_END     <- 2024
 VIF_THRESHOLD <- 10            # collinearity screen (forced confounders are never dropped)
 MIN_OBS      <- 20             # minimum non-missing district-years to use a covariate
-# (R7) extreme-value rule of the principal analysis; EXTREME_RULE=false reproduces the v2.1.x frame without it
+# (R7) extreme-value rule of the principal analysis; EXTREME_RULE=false fits the frame without it (221 districts with R0;
+#      add HAV_PATCH=false to reproduce the v2.1.x frame of 220 districts)
 APPLY_EXTREME_RULE <- toupper(Sys.getenv("EXTREME_RULE", unset = "true")) == "TRUE"
 EXTREME_K <- 5                 # flagged when a value lies more than EXTREME_K interquartile ranges beyond the quartiles
 
@@ -653,8 +655,9 @@ cat(sprintf("  residual I = %+.4f (p = %.3g)\n", moran_post$estimate[[1]], moran
 
 # High- and low-risk districts: combined district effect (u + v of the BYM term) whose 95% CrI
 # excludes zero.
-# Only districts that enter the likelihood are classified. The 3 graph districts without
-# covariate data receive effects interpolated from the prior and their neighbours.
+# Only districts that enter the likelihood are classified. The 4 graph districts that do not (Jeju-si and Seogwipo-si,
+# no fiscal statistics; Suwon-si and Seongnam-si, rule R7) are not classified: the 2 Jeju districts have prior-only
+# effects (a separate graph component), the other 2 have effects interpolated from their neighbours.
 re <- M6$summary.random$idarea; na <- nrow(shp_main); ana <- sort(unique(ic$idarea))
 n_high <- sum(re$`0.025quant`[ana] > 0); n_low <- sum(re$`0.975quant`[ana] < 0)
 n_high_all <- sum(re$`0.025quant`[1:na] > 0); n_low_all <- sum(re$`0.975quant`[1:na] < 0)

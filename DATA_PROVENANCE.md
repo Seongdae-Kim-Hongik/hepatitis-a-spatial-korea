@@ -12,7 +12,7 @@ The analysis uses aggregated district-year counts and administrative indicators;
 
 The loader documents the Korean source filenames expected from the archived working directory.
 
-## Known defects of the source files and the v2.1 repair rules
+## Known defects of the source files and the repair rules (R0-R7)
 
 Several source files store unavailable values as 0 rather than as missing, and some series change definition, unit or aggregation in particular years (listed in `README.md`). The repair is applied to the full 2008-2024 history of each series before the study years are selected:
 
