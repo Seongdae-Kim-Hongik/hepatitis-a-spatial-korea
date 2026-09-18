@@ -15,20 +15,28 @@
 #  instead of their true level. Section [2b] repairs this, and every repaired value
 #  is logged in results/data_repair_log.csv. The v2.0.x headline associations for
 #  piped water-supply coverage and inpatient medical cost were artefacts of this
-#  problem and are NOT reproduced here. See README.md and DATA_PROVENANCE.md.
+#  problem and are NOT reproduced here.
+#
+# WHY v2.2.0: a post hoc screen of the v2.1.x repaired analysis for values lying
+#  more than 5 interquartile ranges beyond the quartiles of the study years found
+#  further apparent aggregation errors (rule R7, applied by default; set
+#  EXTREME_RULE=false to reproduce the v2.1.x frame without it). Two districts
+#  (Suwon-si, Seongnam-si) could not be filled and now leave the analysis. See
+#  README.md and DATA_PROVENANCE.md.
 #
 # Model: Bayesian negative-binomial disease mapping with a Besag-York-Mollie
 #  (BYM) convolution + first-order temporal random walk (RW1) + Knorr-Held
 #  Type I space-time interaction, fitted by INLA (R-INLA). The contiguity graph
-#  has 223 districts; 220 districts (1,100 district-years, 2020-2024) have
-#  complete covariates and enter the likelihood. 27 final covariates.
+#  has 223 districts; with rule R7 applied (default), 218 districts (1,090
+#  district-years, 2020-2024) have complete, non-flagged covariates and enter the
+#  likelihood. 27 final covariates.
 #
 # The 27-covariate specification was developed through exploratory model
 #  building and is not prospectively pre-specified; all credible associations
 #  are hypothesis-generating.
 #
 # One run regenerates every number used by the manuscript:
-#  [6]  principal model M6 and Table 2 (4 credible covariates)
+#  [6]  principal model M6 and Table 2 (5 credible covariates)
 #  [7]  model comparison M1-M6 with DIC, WAIC and effective parameters (Table S3)
 #  [8]  global Moran's I, high/low-risk districts among analysed districts (Table S4)
 #  [9]  8-graph neighbourhood sensitivity (Table S6)
@@ -48,7 +56,7 @@
 #  Korea Disease Control and Prevention Agency (KDCA) Infectious Disease Portal
 #  (https://dportal.kdca.go.kr); covariates come from KOSIS and the open-data
 #  portals of the relevant Korean ministries. Raw source extracts are NOT
-#  redistributed here; the compiled 1,100-row district-year analytic table is
+#  redistributed here; the compiled 1,090-row district-year analytic table is
 #  provided in results/analysis_dataset_compiled.csv. Place the raw input
 #  files under ./data (or set the HAV_DATA_DIR environment variable) to rebuild
 #  it from source. No personally identifiable information is used
@@ -688,7 +696,7 @@ for (gn in names(graphs)) {
 cat("  credible across graphs (out of 8):\n")
 for (c in cred) cat(sprintf("    %-18s %d/8\n", c, graph_cred[c]))
 write.csv(do.call(rbind, graph_irr), file.path(OUT_DIR, "graph_sensitivity.csv"), row.names = FALSE)
-# counts restricted to the analysed districts (column suffix _220 = the 220 districts with complete covariates)
+# counts restricted to the analysed districts (column suffix _220 is retained from the v2.1.x file name; the analysed set is now 218 districts with rule R7 applied)
 write.csv(do.call(rbind, graph_cnt), file.path(OUT_DIR, "graph_counts_analysed220.csv"), row.names = FALSE)
 
 # ---------------------------------------------------------------------------
@@ -698,8 +706,8 @@ cat("\n## [10] Getis-Ord Gi* (Figure S2, Multimedia Appendix 3)\n")
 nb_self <- include.self(nb_obj)
 lw_self <- nb2listw(nb_self, style = "B", zero.policy = TRUE)
 # Descriptive Gi* uses the observed crude rate of ALL graph districts. Outcome data exist for every
-# district; only covariates are missing for the 3 complete-case exclusions. (v2.1 fix: these 3 districts
-# were previously entered as rate = 0, which produced spurious cold spots.)
+# district; only covariates are missing (or flagged by rule R7) for the 5 complete-case exclusions.
+# (v2.1 fix: these districts were previously entered as rate = 0, which produced spurious cold spots.)
 rv_full <- data_ext %>% group_by(region) %>%
   summarise(rate = sum(cases) / sum(population) * 1e5, cases = sum(cases), .groups = "drop")
 cases_223 <- sum(rv_full$cases[rv_full$region %in% shp_main$region])

@@ -33,7 +33,7 @@ Because only one year of data exists, basic livelihood security recipients and w
 
 ## Compiled analytic file
 
-`results/analysis_dataset_compiled.csv` is the exact 1,100-row district-year table (220 districts, 2020-2024) used by the archived run, after repair. It is included to support computational reproduction of the reported model. The compiled file shipped with v2.0.x (1,112 rows) contained the unrepaired values and must not be used.
+`results/analysis_dataset_compiled.csv` is the exact 1,090-row district-year table (218 districts, 2020-2024) used by the archived run, after repair (rule R7 applied). It is included to support computational reproduction of the reported model. The compiled file shipped with v2.0.x (1,112 rows) contained the unrepaired values and must not be used.
 
 The compiled file contains only district-year aggregates derived from publicly released statistics. Users who redistribute it should check the terms of the source portals.
 
