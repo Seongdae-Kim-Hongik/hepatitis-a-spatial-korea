@@ -1,5 +1,5 @@
 # =============================================================================
-# Reproducible analysis code (v2.3.2; extreme-value rule R7 and Busanjin-gu restoration R0 in the principal analysis)
+# Reproducible analysis code (v2.3.3; extreme-value rule R7 and Busanjin-gu restoration R0 in the principal analysis)
 # "Spatial Clustering of Hepatitis A in South Korea, 2020-2024: Nationwide
 #  Bayesian Analysis of Groundwater, Land Cover, and Socioeconomic Gradients"
 # Seongdae Kim, Byung Chul Chun.
@@ -49,7 +49,7 @@
 #
 # Software: R 4.6.0 and R-INLA 25.10.19 (results/sessionInfo.txt). INLA fits of
 #  this model are not bit-reproducible: 20 repeated fits of M6 with identical
-#  settings differ by about 3 DIC points and in the 4th decimal of the IRRs
+#  settings span about 9 DIC points (5646.8-5655.4) and differ in the 4th decimal of the IRRs
 #  (results/repeated_fits.csv); the credible set is identical in every fit.
 # Run:  HAV_DATA_DIR=/path/to/data RUN_EXTENDED=true RUN_STABILITY=true Rscript HAV_spatial_reproducible.R
 #

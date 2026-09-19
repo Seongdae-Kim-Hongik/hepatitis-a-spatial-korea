@@ -95,6 +95,9 @@ MIT (see `LICENSE`). Archived on Zenodo — concept DOI (all versions): https://
 
 ## Changelog
 
+### v2.3.3 — documentation correction (2026-09-19)
+Documentation-only. The script header said that 20 repeated fits of M6 differ by about 3 DIC points; in `results/repeated_fits.csv` they span about 9 (5646.8–5655.4), as the manuscript and Table S3 report. No change to code logic, data or results.
+
 ### v2.3.2 — documentation correction (2026-09-19)
 Documentation-only. The script header still read v2.3.0; a script comment and `DATA_PROVENANCE.md` called the analysis without R7 "the v2.1.x frame" (with R0 it has 221 districts, 1,105 district-years); and the R7 comment placed both sex-ratio outliers in cities with non-autonomous wards (only Changwon-si has them; the other is Namyangju-si). No change to code logic, data or results.
 
