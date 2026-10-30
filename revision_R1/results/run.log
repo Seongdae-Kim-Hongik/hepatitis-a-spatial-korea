@@ -1,0 +1,682 @@
+HAV revision R1 additional analyses - 2026-10-31 06:09:59 
+analysis frame: 1095 rows, 219 districts, 13992 cases
+graph: 223 districts with neighbours (of 229)
+idarea check: 0 of 219 districts differ from the archived index (index re-derived from this boundary order)
+E_age: sum 13999.7 vs cases 13992 (SIR 0.999); population check ratio 1.000-1.012
+physicians: 1095 rows merged, 0 NA
+credible set as submitted: dairy_farm gw_household sewer_repair forest fiscal_indep 
+
+[A0_baseline] submitted specification refitted on this input frame  (27 covariates, offset log(population + 1))
+   0.0 min
+    covariate    IRR     lo     hi
+   dairy_farm 1.0435 1.0035 1.0850
+ gw_household 1.0789 1.0017 1.1607
+ sewer_repair 0.9079 0.8266 0.9973
+       forest 0.8330 0.7525 0.9238
+ fiscal_indep 0.8691 0.7971 0.9474
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5648 5659    0.2329 2.422e-08              0.2329     75    58
+
+[A1_offset_pop] offset population without +1  (27 covariates, offset log(population))
+   0.0 min
+    covariate    IRR     lo     hi
+   dairy_farm 1.0436 1.0036 1.0850
+ gw_household 1.0790 1.0019 1.1606
+ sewer_repair 0.9079 0.8266 0.9973
+       forest 0.8330 0.7525 0.9236
+ fiscal_indep 0.8691 0.7972 0.9473
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5646 5659    0.2331 2.362e-08              0.2331     75    58
+
+[A2_agestd_offset] indirect age-standardised expected counts as offset  (27 covariates, offset log(E_age))
+   0.0 min
+    covariate    IRR     lo     hi
+   dairy_farm 1.0450 1.0057 1.0857
+ gw_household 1.0807 1.0043 1.1617
+ sewer_repair 0.9105 0.8310 0.9975
+       forest 0.8387 0.7587 0.9285
+ fiscal_indep 0.8724 0.8016 0.9492
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5609 5620    0.1713 3.447e-05              0.1713     78    58
+
+[A3_p2049] proportion aged 20-49 added  (28 covariates, offset log(population))
+   0.0 min
+    covariate    IRR     lo     hi
+   dairy_farm 1.0427 1.0026 1.0842
+ sewer_repair 0.9095 0.8278 0.9994
+       forest 0.8306 0.7501 0.9213
+ fiscal_indep 0.8809 0.8064 0.9622
+    sex_ratio 1.0742 1.0013 1.1532
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5647 5658    0.2158 2.375e-07              0.2158     78    58
+
+[A4_rescaled] rescaled covariates (original forms) + log population density  (28 covariates, offset log(population))
+   0.0 min
+    covariate    IRR     lo     hi
+ fiscal_indep 0.8964 0.8244 0.9748
+    sex_ratio 1.0891 1.0065 1.1797
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5648 5663    0.2078 5.214e-07              0.2078     82    60
+
+[A5_rescaled_agestd] rescaled + age-standardised offset (candidate revised principal)  (28 covariates, offset log(E_age))
+   0.0 min
+    covariate    IRR     lo     hi
+ fiscal_indep 0.8897 0.8193 0.9663
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5615 5625    0.1593 0.0001057              0.1593     84    60
+
+[A6_uniform_raw] uniform form: continuous untransformed  (28 covariates, offset log(E_age))
+   0.0 min
+    covariate    IRR     lo    hi
+   dairy_farm 1.0411 1.0025 1.081
+ gw_household 1.0895 1.0119 1.173
+ fiscal_indep 0.9009 0.8265 0.982
+    sex_ratio 1.0808 1.0010 1.168
+  DIC WAIC moran_raw   p_raw moran_raw_queen_ref n_high n_low
+ 5620 5628    0.1265 0.00158              0.1265     77    57
+
+[A7_uniform_log1p] uniform form: continuous log(x+1)  (28 covariates, offset log(E_age))
+   0.0 min
+    covariate   IRR    lo    hi
+ gw_household 1.187 1.047 1.342
+  DIC WAIC moran_raw   p_raw moran_raw_queen_ref n_high n_low
+ 5611 5625     0.131 0.00119               0.131     70    55
+
+[A8_parsimonious_P1] credible set only (rescaled)  (5 covariates, offset log(E_age))
+   0.0 min
+    covariate    IRR     lo     hi
+   dairy_farm 1.0468 1.0103 1.0845
+ gw_household 1.0729 1.0089 1.1404
+ fiscal_indep 0.9014 0.8539 0.9518
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5601 5616    0.1432 0.0004261              0.1432     84    62
+
+[A8_parsimonious_P2] credible set + sex ratio, elderly, urban share, density  (9 covariates, offset log(E_age))
+   0.0 min
+    covariate    IRR     lo     hi
+   dairy_farm 1.0416 1.0046 1.0799
+ fiscal_indep 0.9284 0.8728 0.9877
+ elderly_rate 1.0822 1.0032 1.1674
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5603 5612    0.1691 2.737e-05              0.1691     85    62
+
+[A9_RSR_rescaled_agestd] restricted spatial regression (A5 covariates)  (28 covariates, offset log(E_age))
+   0.0 min
+      covariate    IRR     lo     hi
+         oyster 0.9203 0.8808 0.9616
+     dairy_farm 1.0617 1.0242 1.1005
+   gw_household 1.1794 1.1066 1.2569
+     pub_sewage 0.8420 0.7625 0.9299
+          paddy 1.0979 1.0333 1.1664
+    food_safety 1.0536 1.0134 1.0955
+  elderly_alone 0.9145 0.8633 0.9686
+        welfare 1.0656 1.0158 1.1179
+   fiscal_indep 0.8163 0.7635 0.8727
+    fiscal_auto 1.2733 1.1959 1.3554
+      sex_ratio 1.0770 1.0113 1.1468
+ urban_pop_rate 0.8992 0.8382 0.9647
+     depression 1.0581 1.0209 1.0966
+        popdens 1.6989 1.3583 2.1237
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5743 5756    0.1964 2.321e-06              0.1964     29    20
+
+[A9_RSR_baseline] restricted spatial regression (submitted covariates)  (27 covariates, offset log(population + 1))
+   0.0 min
+      covariate    IRR     lo     hi
+         oyster 0.9171 0.8760 0.9602
+     dairy_farm 1.0890 1.0498 1.1296
+   gw_household 1.2534 1.1841 1.3267
+          paddy 0.8881 0.8287 0.9516
+         forest 0.6739 0.6237 0.7284
+    residential 1.1110 1.0330 1.1950
+    food_safety 1.0471 1.0067 1.0890
+  elderly_alone 0.8983 0.8523 0.9468
+   fiscal_indep 0.8075 0.7517 0.8675
+    fiscal_auto 1.2746 1.1937 1.3608
+      sex_ratio 1.0721 1.0101 1.1380
+ urban_pop_rate 0.9081 0.8494 0.9708
+  clinic_family 1.0973 1.0444 1.1528
+     depression 1.0641 1.0264 1.1033
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5770 5780     0.283 2.392e-11               0.283     20    12
+
+[A10_ZINB_baseline] ZINB type 1, submitted specification  (27 covariates, offset log(population + 1))
+   0.0 min
+    covariate    IRR     lo     hi
+   dairy_farm 1.0437 1.0037 1.0851
+ gw_household 1.0776 1.0006 1.1592
+ sewer_repair 0.9073 0.8259 0.9967
+       forest 0.8331 0.7527 0.9237
+ fiscal_indep 0.8686 0.7967 0.9468
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5650 5661    0.2331 2.354e-08              0.2331     75    59
+
+[A10_ZINB_rescaled_agestd] ZINB type 1, A5 specification  (28 covariates, offset log(E_age))
+   0.0 min
+    covariate    IRR    lo     hi
+ fiscal_indep 0.8894 0.819 0.9659
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5616 5628     0.161 9.009e-05               0.161     84    60
+
+share of zero district-years: 8.8%
+
+[A11_M1_submitted] nested M1 submitted covariates  (27 covariates, offset log(population + 1))
+   0.0 min
+       covariate    IRR     lo     hi
+          oyster 0.9041 0.8530 0.9583
+      dairy_farm 1.0793 1.0113 1.1518
+    gw_household 1.2442 1.1549 1.3404
+          forest 0.6827 0.6129 0.7607
+ health_practice 0.8024 0.7498 0.8587
+   elderly_alone 0.6900 0.6336 0.7514
+     alone_80_84 0.9004 0.8379 0.9675
+         welfare 1.1083 1.0383 1.1830
+    fiscal_indep 0.7431 0.6689 0.8255
+     fiscal_auto 1.2492 1.1391 1.3698
+    elderly_rate 0.7979 0.7129 0.8931
+  urban_pop_rate 0.8764 0.7997 0.9604
+   clinic_family 1.1360 1.0593 1.2180
+      depression 1.0979 1.0438 1.1548
+  DIC WAIC moran_raw   p_raw moran_raw_queen_ref n_high n_low
+ 6413 6419    0.1109 0.00383              0.1109     NA    NA
+
+[A11_M2_submitted] nested M2 submitted covariates  (27 covariates, offset log(population + 1))
+   0.0 min
+       covariate    IRR     lo     hi
+    gw_household 1.1041 1.0002 1.2177
+      septic_pop 1.0864 1.0106 1.1684
+          forest 0.8526 0.7427 0.9815
+ health_practice 0.7624 0.7099 0.8189
+   elderly_alone 0.7203 0.6519 0.7940
+     alone_80_84 0.8117 0.7448 0.8824
+    fiscal_indep 0.8098 0.7168 0.9149
+    elderly_rate 0.7924 0.7016 0.8941
+      depression 1.0580 1.0061 1.1125
+  DIC WAIC moran_raw  p_raw moran_raw_queen_ref n_high n_low
+ 6265 6276   0.05598 0.1468             0.05598     35    36
+
+[A11_M3_submitted] nested M3 submitted covariates  (27 covariates, offset log(population + 1))
+   0.0 min
+       covariate    IRR     lo     hi
+    gw_household 1.1081 1.0019 1.2247
+      septic_pop 1.0891 1.0120 1.1729
+          forest 0.8539 0.7418 0.9867
+ health_practice 0.7609 0.7081 0.8178
+   elderly_alone 0.7145 0.6448 0.7894
+     alone_80_84 0.8064 0.7366 0.8794
+    fiscal_indep 0.8086 0.7142 0.9154
+    elderly_rate 0.7904 0.6987 0.8932
+      depression 1.0582 1.0061 1.1130
+  DIC WAIC moran_raw   p_raw moran_raw_queen_ref n_high n_low
+ 6264 6277    0.0641 0.09921              0.0641     33    33
+
+[A11_M4_submitted] nested M4 submitted covariates  (27 covariates, offset log(population + 1))
+   0.0 min
+       covariate    IRR     lo     hi
+    gw_household 1.1093 1.0037 1.2248
+      septic_pop 1.0897 1.0135 1.1724
+    sewer_repair 0.9014 0.8141 0.9981
+          forest 0.8565 0.7442 0.9892
+ health_practice 0.7550 0.7026 0.8112
+   elderly_alone 0.7457 0.6848 0.8102
+     alone_80_84 0.8124 0.7423 0.8860
+    fiscal_indep 0.8184 0.7244 0.9243
+    elderly_rate 0.7871 0.6961 0.8890
+      depression 1.0573 1.0041 1.1133
+  DIC WAIC moran_raw   p_raw moran_raw_queen_ref n_high n_low
+ 5774 5672    0.1037 0.01187              0.1037     30    29
+
+[A11_M5_submitted] nested M5 submitted covariates  (27 covariates, offset log(population + 1))
+   0.0 min
+    covariate    IRR     lo     hi
+   dairy_farm 1.0436 1.0036 1.0851
+ gw_household 1.0789 1.0019 1.1605
+ sewer_repair 0.9086 0.8275 0.9977
+       forest 0.8327 0.7523 0.9231
+ fiscal_indep 0.8692 0.7974 0.9473
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5659 5666     0.241 7.831e-09               0.241     75    59
+
+[A11_M6_submitted] nested M6 submitted covariates  (27 covariates, offset log(population + 1))
+   0.0 min
+    covariate    IRR     lo     hi
+   dairy_farm 1.0435 1.0035 1.0851
+ gw_household 1.0789 1.0016 1.1606
+ sewer_repair 0.9080 0.8266 0.9973
+       forest 0.8331 0.7525 0.9239
+ fiscal_indep 0.8691 0.7970 0.9474
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5648 5658    0.2325 2.547e-08              0.2325     75    58
+
+[A11_M1_A5] nested M1 A5 covariates  (28 covariates, offset log(E_age))
+   0.0 min
+      covariate    IRR     lo     hi
+         oyster 0.9292 0.8870 0.9734
+     dairy_farm 1.0504 1.0061 1.0968
+   gw_household 1.1944 1.1167 1.2773
+     pub_sewage 0.8043 0.7221 0.8961
+          paddy 1.0935 1.0239 1.1678
+    food_safety 1.0458 1.0016 1.0918
+        welfare 1.0593 1.0056 1.1158
+   fiscal_indep 0.8337 0.7734 0.8989
+    fiscal_auto 1.2369 1.1543 1.3252
+      sex_ratio 1.0748 1.0053 1.1491
+ urban_pop_rate 0.9094 0.8422 0.9819
+         med_in 0.9381 0.8837 0.9961
+     depression 1.0649 1.0234 1.1081
+        popdens 1.7198 1.3466 2.1944
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5946 5948    0.3363 2.349e-15              0.3363     NA    NA
+
+[A11_M2_A5] nested M2 A5 covariates  (28 covariates, offset log(E_age))
+   0.0 min
+    covariate    IRR     lo     hi
+ fiscal_indep 0.8903 0.8211 0.9655
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5622 5630    0.1532 0.0001894              0.1532     84    63
+
+[A11_M3_A5] nested M3 A5 covariates  (28 covariates, offset log(E_age))
+   0.0 min
+    covariate    IRR     lo     hi
+ fiscal_indep 0.8905 0.8206 0.9664
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5623 5632    0.1594 0.0001054              0.1594     84    60
+
+[A11_M4_A5] nested M4 A5 covariates  (28 covariates, offset log(E_age))
+   0.0 min
+    covariate  IRR     lo     hi
+ fiscal_indep 0.89 0.8201 0.9659
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5609 5623    0.1488 0.0002849              0.1488     84    60
+
+[A11_M5_A5] nested M5 A5 covariates  (28 covariates, offset log(E_age))
+   0.0 min
+    covariate  IRR     lo     hi
+ fiscal_indep 0.89 0.8198 0.9663
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5625 5633    0.1658 5.554e-05              0.1658     84    60
+
+[A11_M6_A5] nested M6 A5 covariates  (28 covariates, offset log(E_age))
+   0.0 min
+    covariate    IRR     lo     hi
+ fiscal_indep 0.8897 0.8193 0.9663
+  DIC WAIC moran_raw    p_raw moran_raw_queen_ref n_high n_low
+ 5618 5626    0.1602 9.65e-05              0.1602     83    60
+
+[A11_M0_nocov_submitted] M6 random effects without covariates  (0 covariates, offset log(population + 1))
+   0.0 min
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5650 5662    0.2068 5.565e-07              0.2068     78    59
+
+[A12_graph_queen] graph queen A5 covariates  (28 covariates, offset log(E_age))
+   0.0 min
+    covariate    IRR     lo     hi
+ fiscal_indep 0.8897 0.8193 0.9663
+  DIC WAIC moran_raw    p_raw moran_raw_queen_ref n_high n_low
+ 5615 5625    0.1593 0.000106              0.1593     84    60
+
+[A12_graph_rook] graph rook A5 covariates  (28 covariates, offset log(E_age))
+   0.0 min
+    covariate    IRR    lo     hi
+ fiscal_indep 0.8887 0.818 0.9655
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5618 5626    0.1907 4.561e-06              0.1606     83    60
+
+[A12_graph_knn2] graph knn2 A5 covariates  (28 covariates, offset log(E_age))
+   0.0 min
+    covariate    IRR     lo    hi
+ fiscal_indep 0.9079 0.8385 0.983
+  DIC WAIC moran_raw  p_raw moran_raw_queen_ref n_high n_low
+ 5609 5623   0.06689 0.2083              0.1116     86    65
+
+[A12_graph_knn3] graph knn3 A5 covariates  (28 covariates, offset log(E_age))
+   0.0 min
+    covariate   IRR     lo     hi
+ fiscal_indep 0.898 0.8286 0.9734
+  DIC WAIC moran_raw  p_raw moran_raw_queen_ref n_high n_low
+ 5601 5616   0.08153 0.0686              0.1311     86    69
+
+[A12_graph_knn4] graph knn4 A5 covariates  (28 covariates, offset log(E_age))
+   0.0 min
+    covariate    IRR     lo     hi
+ fiscal_indep 0.8921 0.8233 0.9667
+  DIC WAIC moran_raw    p_raw moran_raw_queen_ref n_high n_low
+ 5612 5620    0.1122 0.004485              0.1524     88    68
+
+[A12_graph_knn5] graph knn5 A5 covariates  (28 covariates, offset log(E_age))
+   0.0 min
+    covariate    IRR     lo     hi
+ fiscal_indep 0.8983 0.8289 0.9738
+  DIC WAIC moran_raw   p_raw moran_raw_queen_ref n_high n_low
+ 5617 5627   0.08872 0.01213              0.1556     87    67
+
+[A12_graph_knn6] graph knn6 A5 covariates  (28 covariates, offset log(E_age))
+   0.0 min
+    covariate   IRR     lo     hi
+ fiscal_indep 0.899 0.8297 0.9743
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5614 5624    0.1242 0.0001442              0.1707     88    64
+
+[A12_graph_knn7] graph knn7 A5 covariates  (28 covariates, offset log(E_age))
+   0.0 min
+    covariate    IRR     lo     hi
+ fiscal_indep 0.8987 0.8287 0.9748
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5607 5620    0.1343 9.461e-06              0.1765     86    65
+
+[A13_SVC_forest] SVC on forest_r  (28 covariates, offset log(E_age))
+   0.0 min
+    covariate    IRR     lo     hi
+ fiscal_indep 0.8913 0.8203 0.9687
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5614 5626    0.1633 7.441e-05              0.1633     83    59
+   hyperparameters (slope field):
+                       mean    sd 0.025quant 0.5quant 0.975quant mode
+Precision for idarea_s 6675 35468         99     1242      45357  216
+   total local slope (beta+b_i) IRR range 0.952-0.997; analysed districts with CrI excluding 0: negative 0, positive 0; global 0.971 (0.892-1.058)
+
+[A13_SVC_gw_household] SVC on gw_household_r  (28 covariates, offset log(E_age))
+   0.0 min
+    covariate    IRR     lo     hi
+ fiscal_indep 0.8895 0.8187 0.9665
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5614 5625    0.1608 9.239e-05              0.1608     83    59
+   hyperparameters (slope field):
+                        mean    sd 0.025quant 0.5quant 0.975quant mode
+Precision for idarea_s 10310 62303        105     1649      70303  225
+   total local slope (beta+b_i) IRR range 1.003-1.032; analysed districts with CrI excluding 0: negative 0, positive 0; global 1.020 (0.941-1.104)
+
+[A14_physicians] A5 + physicians per 1000  (29 covariates, offset log(E_age))
+   0.0 min
+    covariate    IRR     lo     hi
+ fiscal_indep 0.8862 0.8156 0.9631
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5615 5626    0.1619 8.251e-05              0.1619     83    60
+
+[A15_excl_2020_2021] A5 specification, 2022-2024 only  (28 covariates, offset log(E_age))
+   0.0 min
+[1] covariate IRR       lo        hi       
+<0 행> <또는 row.names의 길이가 0입니다>
+  DIC WAIC moran_raw   p_raw moran_raw_queen_ref n_high n_low
+ 2867 2878  -0.08934 0.05009            -0.08934     20    20
+
+[A16] repeated fits: credible-set identity across 5 fits
+  A0: identical in all fits = TRUE; DIC range 5647.35-5648.23; set = dairy_farm, fiscal_indep, forest, gw_household, sewer_repair
+  A5: identical in all fits = TRUE; DIC range 5614.58-5617.78; set = fiscal_indep
+
+==== persistence of the five submitted credible associations ====
+                      arm    covariate    IRR     lo     hi credible
+              A0_baseline   dairy_farm 1.0435 1.0035 1.0850        1
+        A10_ZINB_baseline   dairy_farm 1.0437 1.0037 1.0851        1
+ A10_ZINB_rescaled_agestd   dairy_farm 1.0370 0.9975 1.0781        0
+                A11_M1_A5   dairy_farm 1.0504 1.0061 1.0968        1
+         A11_M1_submitted   dairy_farm 1.0793 1.0113 1.1518        1
+                A11_M2_A5   dairy_farm 1.0373 0.9982 1.0779        0
+         A11_M2_submitted   dairy_farm 1.0360 0.9717 1.1044        0
+                A11_M3_A5   dairy_farm 1.0372 0.9979 1.0780        0
+         A11_M3_submitted   dairy_farm 1.0348 0.9701 1.1038        0
+                A11_M4_A5   dairy_farm 1.0372 0.9978 1.0782        0
+         A11_M4_submitted   dairy_farm 1.0278 0.9690 1.0897        0
+                A11_M5_A5   dairy_farm 1.0371 0.9977 1.0779        0
+         A11_M5_submitted   dairy_farm 1.0436 1.0036 1.0851        1
+                A11_M6_A5   dairy_farm 1.0371 0.9975 1.0782        0
+         A11_M6_submitted   dairy_farm 1.0435 1.0035 1.0851        1
+           A12_graph_knn2   dairy_farm 1.0322 0.9931 1.0728        0
+           A12_graph_knn3   dairy_farm 1.0329 0.9936 1.0738        0
+           A12_graph_knn4   dairy_farm 1.0354 0.9963 1.0760        0
+           A12_graph_knn5   dairy_farm 1.0362 0.9969 1.0770        0
+           A12_graph_knn6   dairy_farm 1.0371 0.9977 1.0781        0
+           A12_graph_knn7   dairy_farm 1.0353 0.9957 1.0765        0
+          A12_graph_queen   dairy_farm 1.0371 0.9975 1.0782        0
+           A12_graph_rook   dairy_farm 1.0367 0.9972 1.0777        0
+           A13_SVC_forest   dairy_farm 1.0370 0.9974 1.0782        0
+     A13_SVC_gw_household   dairy_farm 1.0372 0.9974 1.0784        0
+           A14_physicians   dairy_farm 1.0370 0.9975 1.0781        0
+       A15_excl_2020_2021   dairy_farm 1.0351 0.9942 1.0777        0
+            A1_offset_pop   dairy_farm 1.0436 1.0036 1.0850        1
+         A2_agestd_offset   dairy_farm 1.0450 1.0057 1.0857        1
+                 A3_p2049   dairy_farm 1.0427 1.0026 1.0842        1
+              A4_rescaled   dairy_farm 1.0330 0.9930 1.0745        0
+       A5_rescaled_agestd   dairy_farm 1.0371 0.9975 1.0782        0
+           A6_uniform_raw   dairy_farm 1.0411 1.0025 1.0810        1
+         A7_uniform_log1p   dairy_farm 1.0449 0.9991 1.0927        0
+       A8_parsimonious_P1   dairy_farm 1.0468 1.0103 1.0845        1
+       A8_parsimonious_P2   dairy_farm 1.0416 1.0046 1.0799        1
+          A9_RSR_baseline   dairy_farm 1.0890 1.0498 1.1296        1
+   A9_RSR_rescaled_agestd   dairy_farm 1.0617 1.0242 1.1005        1
+              A0_baseline fiscal_indep 0.8691 0.7971 0.9474        1
+        A10_ZINB_baseline fiscal_indep 0.8686 0.7967 0.9468        1
+ A10_ZINB_rescaled_agestd fiscal_indep 0.8894 0.8190 0.9659        1
+                A11_M1_A5 fiscal_indep 0.8337 0.7734 0.8989        1
+         A11_M1_submitted fiscal_indep 0.7431 0.6689 0.8255        1
+                A11_M2_A5 fiscal_indep 0.8903 0.8211 0.9655        1
+         A11_M2_submitted fiscal_indep 0.8098 0.7168 0.9149        1
+                A11_M3_A5 fiscal_indep 0.8905 0.8206 0.9664        1
+         A11_M3_submitted fiscal_indep 0.8086 0.7142 0.9154        1
+                A11_M4_A5 fiscal_indep 0.8900 0.8201 0.9659        1
+         A11_M4_submitted fiscal_indep 0.8184 0.7244 0.9243        1
+                A11_M5_A5 fiscal_indep 0.8900 0.8198 0.9663        1
+         A11_M5_submitted fiscal_indep 0.8692 0.7974 0.9473        1
+                A11_M6_A5 fiscal_indep 0.8897 0.8193 0.9663        1
+         A11_M6_submitted fiscal_indep 0.8691 0.7970 0.9474        1
+           A12_graph_knn2 fiscal_indep 0.9079 0.8385 0.9830        1
+           A12_graph_knn3 fiscal_indep 0.8980 0.8286 0.9734        1
+           A12_graph_knn4 fiscal_indep 0.8921 0.8233 0.9667        1
+           A12_graph_knn5 fiscal_indep 0.8983 0.8289 0.9738        1
+           A12_graph_knn6 fiscal_indep 0.8990 0.8297 0.9743        1
+           A12_graph_knn7 fiscal_indep 0.8987 0.8287 0.9748        1
+          A12_graph_queen fiscal_indep 0.8897 0.8193 0.9663        1
+           A12_graph_rook fiscal_indep 0.8887 0.8180 0.9655        1
+           A13_SVC_forest fiscal_indep 0.8913 0.8203 0.9687        1
+     A13_SVC_gw_household fiscal_indep 0.8895 0.8187 0.9665        1
+           A14_physicians fiscal_indep 0.8862 0.8156 0.9631        1
+       A15_excl_2020_2021 fiscal_indep 0.9510 0.8500 1.0645        0
+            A1_offset_pop fiscal_indep 0.8691 0.7972 0.9473        1
+         A2_agestd_offset fiscal_indep 0.8724 0.8016 0.9492        1
+                 A3_p2049 fiscal_indep 0.8809 0.8064 0.9622        1
+              A4_rescaled fiscal_indep 0.8964 0.8244 0.9748        1
+       A5_rescaled_agestd fiscal_indep 0.8897 0.8193 0.9663        1
+           A6_uniform_raw fiscal_indep 0.9009 0.8265 0.9820        1
+         A7_uniform_log1p fiscal_indep 0.9513 0.8565 1.0567        0
+       A8_parsimonious_P1 fiscal_indep 0.9014 0.8539 0.9518        1
+       A8_parsimonious_P2 fiscal_indep 0.9284 0.8728 0.9877        1
+          A9_RSR_baseline fiscal_indep 0.8075 0.7517 0.8675        1
+   A9_RSR_rescaled_agestd fiscal_indep 0.8163 0.7635 0.8727        1
+              A0_baseline       forest 0.8330 0.7525 0.9238        1
+        A10_ZINB_baseline       forest 0.8331 0.7527 0.9237        1
+ A10_ZINB_rescaled_agestd       forest 0.9738 0.8952 1.0594        0
+                A11_M1_A5       forest 0.9920 0.9210 1.0684        0
+         A11_M1_submitted       forest 0.6827 0.6129 0.7607        1
+                A11_M2_A5       forest 0.9743 0.8967 1.0588        0
+         A11_M2_submitted       forest 0.8526 0.7427 0.9815        1
+                A11_M3_A5       forest 0.9745 0.8959 1.0601        0
+         A11_M3_submitted       forest 0.8539 0.7418 0.9867        1
+                A11_M4_A5       forest 0.9743 0.8956 1.0600        0
+         A11_M4_submitted       forest 0.8565 0.7442 0.9892        1
+                A11_M5_A5       forest 0.9740 0.8957 1.0593        0
+         A11_M5_submitted       forest 0.8327 0.7523 0.9231        1
+                A11_M6_A5       forest 0.9737 0.8952 1.0593        0
+         A11_M6_submitted       forest 0.8331 0.7525 0.9239        1
+           A12_graph_knn2       forest 0.9866 0.9099 1.0700        0
+           A12_graph_knn3       forest 0.9786 0.9021 1.0617        0
+           A12_graph_knn4       forest 0.9738 0.8975 1.0566        0
+           A12_graph_knn5       forest 0.9775 0.9006 1.0611        0
+           A12_graph_knn6       forest 0.9774 0.9008 1.0605        0
+           A12_graph_knn7       forest 0.9761 0.8984 1.0606        0
+          A12_graph_queen       forest 0.9737 0.8951 1.0593        0
+           A12_graph_rook       forest 0.9720 0.8934 1.0577        0
+           A13_SVC_forest       forest 0.9715 0.8923 1.0577        0
+     A13_SVC_gw_household       forest 0.9735 0.8943 1.0597        0
+           A14_physicians       forest 0.9723 0.8939 1.0577        0
+       A15_excl_2020_2021       forest 0.9574 0.8604 1.0654        0
+            A1_offset_pop       forest 0.8330 0.7525 0.9236        1
+         A2_agestd_offset       forest 0.8387 0.7587 0.9285        1
+                 A3_p2049       forest 0.8306 0.7501 0.9213        1
+              A4_rescaled       forest 0.9754 0.8962 1.0617        0
+       A5_rescaled_agestd       forest 0.9737 0.8951 1.0593        0
+           A6_uniform_raw       forest 0.9319 0.8521 1.0196        0
+         A7_uniform_log1p       forest 0.9816 0.9229 1.0445        0
+       A8_parsimonious_P1       forest 0.9815 0.9231 1.0440        0
+       A8_parsimonious_P2       forest 0.9618 0.8960 1.0325        0
+          A9_RSR_baseline       forest 0.6739 0.6237 0.7284        1
+   A9_RSR_rescaled_agestd       forest 0.9894 0.9237 1.0597        0
+              A0_baseline gw_household 1.0789 1.0017 1.1607        1
+        A10_ZINB_baseline gw_household 1.0776 1.0006 1.1592        1
+ A10_ZINB_rescaled_agestd gw_household 1.0179 0.9406 1.1007        0
+                A11_M1_A5 gw_household 1.1944 1.1167 1.2773        1
+         A11_M1_submitted gw_household 1.2442 1.1549 1.3404        1
+                A11_M2_A5 gw_household 1.0169 0.9409 1.0984        0
+         A11_M2_submitted gw_household 1.1041 1.0002 1.2177        1
+                A11_M3_A5 gw_household 1.0179 0.9408 1.1006        0
+         A11_M3_submitted gw_household 1.1081 1.0019 1.2247        1
+                A11_M4_A5 gw_household 1.0187 0.9414 1.1015        0
+         A11_M4_submitted gw_household 1.1093 1.0037 1.2248        1
+                A11_M5_A5 gw_household 1.0188 0.9418 1.1013        0
+         A11_M5_submitted gw_household 1.0789 1.0019 1.1605        1
+                A11_M6_A5 gw_household 1.0197 0.9423 1.1025        0
+         A11_M6_submitted gw_household 1.0789 1.0016 1.1606        1
+           A12_graph_knn2 gw_household 1.0401 0.9631 1.1226        0
+           A12_graph_knn3 gw_household 1.0271 0.9511 1.1088        0
+           A12_graph_knn4 gw_household 1.0156 0.9402 1.0964        0
+           A12_graph_knn5 gw_household 1.0201 0.9443 1.1013        0
+           A12_graph_knn6 gw_household 1.0191 0.9429 1.1009        0
+           A12_graph_knn7 gw_household 1.0243 0.9464 1.1080        0
+          A12_graph_queen gw_household 1.0197 0.9423 1.1025        0
+           A12_graph_rook gw_household 1.0206 0.9434 1.1033        0
+           A13_SVC_forest gw_household 1.0194 0.9416 1.1029        0
+     A13_SVC_gw_household gw_household 1.0196 0.9413 1.1038        0
+           A14_physicians gw_household 1.0196 0.9423 1.1023        0
+       A15_excl_2020_2021 gw_household 1.0337 0.9367 1.1400        0
+            A1_offset_pop gw_household 1.0790 1.0019 1.1606        1
+         A2_agestd_offset gw_household 1.0807 1.0043 1.1617        1
+                 A3_p2049 gw_household 1.0734 0.9961 1.1553        0
+              A4_rescaled gw_household 1.0238 0.9454 1.1077        0
+       A5_rescaled_agestd gw_household 1.0197 0.9423 1.1025        0
+           A6_uniform_raw gw_household 1.0895 1.0119 1.1726        1
+         A7_uniform_log1p gw_household 1.1867 1.0471 1.3422        1
+       A8_parsimonious_P1 gw_household 1.0729 1.0089 1.1404        1
+       A8_parsimonious_P2 gw_household 1.0224 0.9489 1.1006        0
+          A9_RSR_baseline gw_household 1.2534 1.1841 1.3267        1
+   A9_RSR_rescaled_agestd gw_household 1.1794 1.1066 1.2569        1
+              A0_baseline sewer_repair 0.9079 0.8266 0.9973        1
+        A10_ZINB_baseline sewer_repair 0.9073 0.8259 0.9967        1
+ A10_ZINB_rescaled_agestd sewer_repair 0.9306 0.8405 1.0305        0
+                A11_M1_A5 sewer_repair 0.9470 0.8585 1.0447        0
+         A11_M1_submitted sewer_repair 0.9183 0.8342 1.0109        0
+                A11_M2_A5 sewer_repair 0.9303 0.8401 1.0302        0
+         A11_M2_submitted sewer_repair 0.9038 0.8159 1.0012        0
+                A11_M3_A5 sewer_repair 0.9304 0.8401 1.0303        0
+         A11_M3_submitted sewer_repair 0.9036 0.8155 1.0012        0
+                A11_M4_A5 sewer_repair 0.9304 0.8402 1.0304        0
+         A11_M4_submitted sewer_repair 0.9014 0.8141 0.9981        1
+                A11_M5_A5 sewer_repair 0.9303 0.8401 1.0301        0
+         A11_M5_submitted sewer_repair 0.9086 0.8275 0.9977        1
+                A11_M6_A5 sewer_repair 0.9305 0.8404 1.0302        0
+         A11_M6_submitted sewer_repair 0.9080 0.8266 0.9973        1
+           A12_graph_knn2 sewer_repair 0.9350 0.8456 1.0337        0
+           A12_graph_knn3 sewer_repair 0.9330 0.8439 1.0315        0
+           A12_graph_knn4 sewer_repair 0.9315 0.8413 1.0312        0
+           A12_graph_knn5 sewer_repair 0.9323 0.8424 1.0319        0
+           A12_graph_knn6 sewer_repair 0.9312 0.8415 1.0304        0
+           A12_graph_knn7 sewer_repair 0.9316 0.8420 1.0309        0
+          A12_graph_queen sewer_repair 0.9305 0.8404 1.0302        0
+           A12_graph_rook sewer_repair 0.9304 0.8403 1.0301        0
+           A13_SVC_forest sewer_repair 0.9307 0.8406 1.0304        0
+     A13_SVC_gw_household sewer_repair 0.9308 0.8407 1.0305        0
+           A14_physicians sewer_repair 0.9307 0.8408 1.0303        0
+       A15_excl_2020_2021 sewer_repair 0.9457 0.8610 1.0387        0
+            A1_offset_pop sewer_repair 0.9079 0.8266 0.9973        1
+         A2_agestd_offset sewer_repair 0.9105 0.8310 0.9975        1
+                 A3_p2049 sewer_repair 0.9095 0.8278 0.9994        1
+              A4_rescaled sewer_repair 0.9290 0.8367 1.0315        0
+       A5_rescaled_agestd sewer_repair 0.9305 0.8404 1.0302        0
+           A6_uniform_raw sewer_repair 0.9317 0.8418 1.0313        0
+         A7_uniform_log1p sewer_repair 0.9860 0.9444 1.0294        0
+       A8_parsimonious_P1 sewer_repair 0.9389 0.8497 1.0376        0
+       A8_parsimonious_P2 sewer_repair 0.9295 0.8392 1.0293        0
+          A9_RSR_baseline sewer_repair 0.9186 0.8364 1.0088        0
+   A9_RSR_rescaled_agestd sewer_repair 0.9415 0.8547 1.0371        0
+
+==== fit indices ====
+                      arm  DIC WAIC moran_raw     p_raw moran_raw_queen_ref
+              A0_baseline 5648 5659   0.23291 2.422e-08             0.23291
+            A1_offset_pop 5646 5659   0.23310 2.362e-08             0.23310
+         A2_agestd_offset 5609 5620   0.17133 3.447e-05             0.17133
+                 A3_p2049 5647 5658   0.21576 2.375e-07             0.21576
+              A4_rescaled 5648 5663   0.20780 5.214e-07             0.20780
+       A5_rescaled_agestd 5615 5625   0.15929 1.057e-04             0.15929
+           A6_uniform_raw 5620 5628   0.12647 1.580e-03             0.12647
+         A7_uniform_log1p 5611 5625   0.13103 1.190e-03             0.13103
+       A8_parsimonious_P1 5601 5616   0.14323 4.261e-04             0.14323
+       A8_parsimonious_P2 5603 5612   0.16912 2.737e-05             0.16912
+   A9_RSR_rescaled_agestd 5743 5756   0.19639 2.321e-06             0.19639
+          A9_RSR_baseline 5770 5780   0.28297 2.392e-11             0.28297
+        A10_ZINB_baseline 5650 5661   0.23312 2.354e-08             0.23312
+ A10_ZINB_rescaled_agestd 5616 5628   0.16098 9.009e-05             0.16098
+         A11_M1_submitted 6413 6419   0.11091 3.830e-03             0.11091
+         A11_M2_submitted 6265 6276   0.05598 1.468e-01             0.05598
+         A11_M3_submitted 6264 6277   0.06410 9.921e-02             0.06410
+         A11_M4_submitted 5774 5672   0.10366 1.187e-02             0.10366
+         A11_M5_submitted 5659 5666   0.24103 7.831e-09             0.24103
+         A11_M6_submitted 5648 5658   0.23253 2.547e-08             0.23253
+                A11_M1_A5 5946 5948   0.33631 2.349e-15             0.33631
+                A11_M2_A5 5622 5630   0.15321 1.894e-04             0.15321
+                A11_M3_A5 5623 5632   0.15936 1.054e-04             0.15936
+                A11_M4_A5 5609 5623   0.14876 2.849e-04             0.14876
+                A11_M5_A5 5625 5633   0.16584 5.554e-05             0.16584
+                A11_M6_A5 5618 5626   0.16024 9.650e-05             0.16024
+   A11_M0_nocov_submitted 5650 5662   0.20684 5.565e-07             0.20684
+          A12_graph_queen 5615 5625   0.15927 1.060e-04             0.15927
+           A12_graph_rook 5618 5626   0.19075 4.561e-06             0.16064
+           A12_graph_knn2 5609 5623   0.06689 2.083e-01             0.11156
+           A12_graph_knn3 5601 5616   0.08153 6.860e-02             0.13107
+           A12_graph_knn4 5612 5620   0.11223 4.485e-03             0.15238
+           A12_graph_knn5 5617 5627   0.08872 1.213e-02             0.15560
+           A12_graph_knn6 5614 5624   0.12422 1.442e-04             0.17071
+           A12_graph_knn7 5607 5620   0.13432 9.461e-06             0.17649
+           A13_SVC_forest 5614 5626   0.16328 7.441e-05             0.16328
+     A13_SVC_gw_household 5614 5625   0.16075 9.239e-05             0.16075
+           A14_physicians 5615 5626   0.16187 8.251e-05             0.16187
+       A15_excl_2020_2021 2867 2878  -0.08934 5.009e-02            -0.08934
+ n_high n_low
+     75    58
+     75    58
+     78    58
+     78    58
+     82    60
+     84    60
+     77    57
+     70    55
+     84    62
+     85    62
+     29    20
+     20    12
+     75    59
+     84    60
+     NA    NA
+     35    36
+     33    33
+     30    29
+     75    59
+     75    58
+     NA    NA
+     84    63
+     84    60
+     84    60
+     84    60
+     83    60
+     78    59
+     84    60
+     83    60
+     86    65
+     86    69
+     88    68
+     87    67
+     88    64
+     86    65
+     83    59
+     83    59
+     83    60
+     20    20
+
+done - 2026-10-31 06:11:54 

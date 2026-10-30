@@ -32,6 +32,22 @@ Several source files store unavailable values as 0 rather than as missing, and s
 
 Because only one year of data exists, basic livelihood security recipients and wastewater-discharging facilities (2020) and groundwater-quality tests (2023) are constant over the study years after filling. A further limitation is handled by sensitivity analysis: oyster production is available only for 2020, 2022 and 2023, and the 2020 file omits the major producing districts Tongyeong, Goseong and Yeosu (`results/sens_oyster_coverage.csv`).
 
+## Input corrections made at revision R1 (v2.4.0)
+
+Three further problems were found while the covariates were being rescaled for the revision; they are corrected in `revision_R1/data/analysis_dataset_compiled_v2.4.0.csv`, which the revision script reads, and they do not alter `results/` (v2.3.3), which is kept as the reviewed analysis.
+
+| Problem | Correction |
+|---|---|
+| The district-name truncation that lost Busanjin-gu's sewerage values (rule R0) had also affected the land-use (forest, paddy-field, residential area) and household groundwater-well files, so Busanjin-gu carried 0 in those series; the land-use values of Cheonan-si were 0 in every year | Newer compilations of the same source files supply the values (35 district-year cells in 2 districts); the sewerage values of Busanjin-gu are still restored by R0 |
+| The area field carried in the compiled frame (`총면적(㎢)`, from the sewerage statistics) is about twice the cadastral area in most districts (eg, Hongcheon-gun 3,641 vs 1,815 km²); it was never a covariate | District land area for every share and density is computed from the official district boundary file (Korea 2000 Unified Coordinate System, EPSG:5179); `revision_R1/results/area_check_sewer_vs_shapefile.csv` lists both |
+| In the reviewed frame the notifications of Michuhol-gu (Incheon Nam-gu) and Namdong-gu were attached to each other's polygon through a label inconsistency in an earlier copy of the boundary file | The district index is derived from the boundary file by district code and geometry; the current boundary file is consistent (code 23030, 24.6 km², centroid 126.665E 37.453N = Michuhol-gu; code 23050, 57.8 km² = Namdong-gu) |
+
+Refitting the reviewed specification on the corrected inputs (arm A0 of `revision_R1/HAV_revision_R1.R`) reproduces its 5 credible associations to the second decimal.
+
+## Age-standardized expected counts (v2.4.0)
+
+`revision_R1/data/ST_HepatitisA_agecase.csv` holds the KDCA Infectious Disease Portal counts of notified hepatitis A cases by district, year (2020-2024) and 10-year age band (0-9 to 70+); `revision_R1/data/ST_agepop.csv` the KOSIS resident-registration population by district, year and the same bands. The national rate of each band and year is the sum of district counts divided by the sum of district populations over all 229 districts; the expected count of a district-year is the sum over bands of its population multiplied by the national rate (`revision_R1/results/national_age_rates_2020_2024.csv`). Cases with unknown age are not in the age-band cross-tabulation, so the age-band totals are slightly below the district totals. `revision_R1/data/physicians_count.csv` (KOSIS health care resources) supplies the physicians-per-1000 ascertainment proxy.
+
 ## Compiled analytic file
 
 `results/analysis_dataset_compiled.csv` is the exact 1,095-row district-year table (219 districts, 2020-2024) used by the archived run, after repair (rules R0 and R7 applied). It is included to support computational reproduction of the reported model. The compiled file shipped with v2.0.x (1,112 rows) contained the unrepaired values and must not be used.
