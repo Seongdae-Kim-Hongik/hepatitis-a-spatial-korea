@@ -4,7 +4,7 @@
 
 Reproducibility package for:
 
-> **Spatial Clustering of Hepatitis A in South Korea, 2020-2024: Nationwide Bayesian Analysis of Socioeconomic Gradients and Residual Clustering After Age Standardization**
+> **Spatial Clustering of Hepatitis A in South Korea, 2020-2024: Nationwide Bayesian Analysis of Socioeconomic Gradients and Residual Clustering After Age-Sex Standardization**
 > Seongdae Kim, Byung Chul Chun. (Revised manuscript R1 under review at *JMIR Public Health and Surveillance*, manuscript #112448; the reviewed version carried the title *Spatial Clustering of Hepatitis A in South Korea, 2020-2024: Nationwide Bayesian Analysis of Groundwater, Land Cover, and Socioeconomic Gradients*.)
 
 The concept DOI above always resolves to the latest version. Releases up to v2.0.6 accompanied an earlier version of this analysis under the title *Sanitation Infrastructure and Environmental Vulnerability of Hepatitis A Transmission in South Korea, 2020-2024*.

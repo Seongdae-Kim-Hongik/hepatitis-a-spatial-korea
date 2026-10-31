@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this reproducibility package, please cite the associated article and the archived software release (concept DOI 10.5281/zenodo.20725490)."
-title: "Spatial Clustering of Hepatitis A in South Korea, 2020-2024: Nationwide Bayesian Analysis of Socioeconomic Gradients and Residual Clustering After Age Standardization (analysis code, data-repair log and compiled data)"
+title: "Spatial Clustering of Hepatitis A in South Korea, 2020-2024: Nationwide Bayesian Analysis of Socioeconomic Gradients and Residual Clustering After Age-Sex Standardization (analysis code, data-repair log and compiled data)"
 type: software
 version: 2.4.1
 date-released: 2026-10-31
