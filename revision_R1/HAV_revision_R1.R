@@ -71,6 +71,14 @@ C$area_ratio_check <- C[["총면적(㎢)"]] / C$area_km2
 write.csv(C %>% group_by(region) %>% summarise(sewer_area = mean(`총면적(㎢)`), shp_area = mean(area_km2), ratio = mean(area_ratio_check)),
           file.path(OUT, "area_check_sewer_vs_shapefile.csv"), row.names = FALSE, fileEncoding = "UTF-8")
 
+# HAV_CASES=portal replaces the district-year outcome by the current KDCA portal sex-by-age tabulation (data-vintage sensitivity)
+if (Sys.getenv("HAV_CASES", "frame") == "portal") {
+  .pc <- read.csv(file.path(CACHE, "ST_HepatitisA_agesexcase.csv"), fileEncoding = "UTF-8-BOM", stringsAsFactors = FALSE) %>%
+    group_by(region, year) %>% summarise(cases_portal = sum(cases), .groups = "drop")
+  C <- C %>% left_join(.pc, by = c("region","year")); stopifnot(!any(is.na(C$cases_portal)))
+  cat(sprintf("outcome replaced by portal counts: %d -> %d cases; %d district-years differ, max |diff| %d\n", sum(C$cases), sum(C$cases_portal), sum(C$cases != C$cases_portal), max(abs(C$cases - C$cases_portal))))
+  C$cases <- C$cases_portal
+}
 # age-sex-standardised expected counts (indirect; national sex x 10-year-age rates by year from all 229 districts)
 # HAV_STD = "agesex" (default, v4) or "age" (v3 behaviour). Source: KDCA portal district x sex x age-band notifications and
 # resident registration population by sex and age band (ST_HepatitisA_agesexcase.csv / ST_agesexpop_2020_2024.csv).

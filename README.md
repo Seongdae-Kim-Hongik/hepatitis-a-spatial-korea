@@ -109,6 +109,9 @@ MIT (see `LICENSE`). Archived on Zenodo — concept DOI (all versions): https://
 
 ## Changelog
 
+### v2.4.2 — data-vintage sensitivity (2026-10-31)
+Adds `HAV_CASES=portal` to `revision_R1/HAV_revision_R1.R`, which replaces the outcome of the analysis extract (13,992 cases in the 219 districts) by the current KDCA portal sex-by-age tabulation (13,980 cases; 197 of 1,095 district-years differ, by at most 4 cases), with outputs in `revision_R1/results_portalcases/`. The principal model keeps fiscal independence (IRR 0.899, 95% CrI 0.828-0.977); the proportion aged 65 years or older reaches a borderline interval excluding 1 (1.104, 1.004-1.215). No other result changes. Zenodo metadata title updated to the final manuscript title.
+
 ### v2.4.1 — revision R1, age-sex standardization (2026-10-31)
 Replaces the age-only standardization of v2.4.0 by indirect standardization over 16 sex-by-age strata (KDCA district-by-sex-by-age-band notifications `revision_R1/data/ST_HepatitisA_agesexcase.csv`; resident-registration population by district, sex and age band `revision_R1/data/ST_agesexpop_2020_2024.csv`, built by `revision_R1/data/build_agesexpop.py`). All arms, threshold refits and figures were rerun (`revision_R1/results/`, `revision_R1/results_thresholds/`, `revision_R1/figures/`); the credible set is unchanged (fiscal independence only). `HAV_STD=age` reproduces the v2.4.0 age-only variant.
 
