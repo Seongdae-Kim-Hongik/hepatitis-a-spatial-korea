@@ -1,5 +1,5 @@
 # =============================================================================
-# HAV JMIR PHS #112448 revision R1 - additional analyses (v3, 2026-10-31, after GPT audit rounds 1-2)
+# HAV JMIR PHS #112448 revision R1 - additional analyses (v4, 2026-10-31: age-sex standardised offset, HAV_STD=agesex|age)
 # v3: sign-preserving log in every log1p form (net migration can be negative; v2 clipped it in the mixed-form arms);
 #   HAV_FRAME / HAV_ARMS environment variables allow the revised principal model to be refitted on alternative input frames.
 # v2 changes: input frame = pipeline rerun with corrected Busanjin-gu land-use/well files (G4_thresholds/out2_base);
@@ -27,8 +27,8 @@
 #  A13 spatially varying coefficients (besag slopes) for forest share and wells   [E-M6, AB-4]
 #  A14 ascertainment proxy: physicians per 1000 population added to A5           [E-M7, AB-5]
 #  A15 A5 excluding 2020-2021                                                     [E-M8, AB-6]
-# Run (from the repository root): HAV_DATA_DIR=/path/to/data Rscript revision_R1/HAV_revision_R1.R   (about 60-90 min; log in revision_R1/results/run.log)
-# HAV_FRAME=<compiled frame> HAV_ARMS=A5 HAV_OUT=<dir> refits the revised principal model on an alternative input frame (run_g4_a5.sh).
+# Run (from the repository root): HAV_DATA_DIR=/path/to/data Rscript revision_R1/HAV_revision_R1.R   (log in revision_R1/results/run.log)
+# HAV_STD=age reproduces the age-only standardisation; HAV_FRAME/HAV_ARMS/HAV_OUT select an alternative input frame, a subset of arms and the output folder.
 # =============================================================================
 suppressMessages({library(dplyr); library(sf); library(spdep); library(INLA)})
 ROOT <- Sys.getenv("HAV_R1_DIR", file.path(getwd(), "revision_R1")); OUT <- Sys.getenv("HAV_OUT", file.path(ROOT, "results")); dir.create(OUT, showWarnings = FALSE)
@@ -71,21 +71,35 @@ C$area_ratio_check <- C[["총면적(㎢)"]] / C$area_km2
 write.csv(C %>% group_by(region) %>% summarise(sewer_area = mean(`총면적(㎢)`), shp_area = mean(area_km2), ratio = mean(area_ratio_check)),
           file.path(OUT, "area_check_sewer_vs_shapefile.csv"), row.names = FALSE, fileEncoding = "UTF-8")
 
-# age-standardised expected counts (indirect; national age-specific rates by year from all 229 districts)
-ac <- read.csv(file.path(CACHE, "ST_HepatitisA_agecase.csv"), fileEncoding = "UTF-8-BOM", stringsAsFactors = FALSE)
-ap <- read.csv(file.path(CACHE, "ST_agepop.csv"), fileEncoding = "UTF-8-BOM", stringsAsFactors = FALSE)
+# age-sex-standardised expected counts (indirect; national sex x 10-year-age rates by year from all 229 districts)
+# HAV_STD = "agesex" (default, v4) or "age" (v3 behaviour). Source: KDCA portal district x sex x age-band notifications and
+# resident registration population by sex and age band (ST_HepatitisA_agesexcase.csv / ST_agesexpop_2020_2024.csv).
+STD <- Sys.getenv("HAV_STD", "agesex")
+ac <- read.csv(file.path(CACHE, "ST_HepatitisA_agesexcase.csv"), fileEncoding = "UTF-8-BOM", stringsAsFactors = FALSE)
+ap <- read.csv(file.path(CACHE, "ST_agesexpop_2020_2024.csv"), fileEncoding = "UTF-8-BOM", stringsAsFactors = FALSE)
 ac <- ac %>% filter(year >= 2020, year <= 2024); ap <- ap %>% filter(year >= 2020, year <= 2024)
 names(ap)[names(ap) == "age10"] <- "age_group"
-nat <- ac %>% group_by(year, age_group) %>% summarise(cases = sum(cases), .groups = "drop") %>%
+nat_sx <- ac %>% group_by(year, sex, age_group) %>% summarise(cases = sum(cases), .groups = "drop") %>%
+  inner_join(ap %>% group_by(year, sex, age_group) %>% summarise(pop = sum(pop), .groups = "drop"), by = c("year","sex","age_group")) %>%
+  mutate(rate = cases / pop)
+nat_a <- ac %>% group_by(year, age_group) %>% summarise(cases = sum(cases), .groups = "drop") %>%
   inner_join(ap %>% group_by(year, age_group) %>% summarise(pop = sum(pop), .groups = "drop"), by = c("year","age_group")) %>%
   mutate(rate = cases / pop)
-write.csv(nat, file.path(OUT, "national_age_rates_2020_2024.csv"), row.names = FALSE, fileEncoding = "UTF-8")
-E <- ap %>% inner_join(nat %>% dplyr::select(year, age_group, rate), by = c("year","age_group")) %>%
-  group_by(region, year) %>% summarise(E_age = sum(pop * rate), pop_age = sum(pop),
-    p2049 = sum(pop[age_group %in% c("20~29세","30~39세","40~49세")]) / sum(pop), .groups = "drop")
+write.csv(nat_sx, file.path(OUT, "national_agesex_rates_2020_2024.csv"), row.names = FALSE, fileEncoding = "UTF-8")
+write.csv(nat_a, file.path(OUT, "national_age_rates_2020_2024.csv"), row.names = FALSE, fileEncoding = "UTF-8")
+if (STD == "agesex") {
+  E <- ap %>% inner_join(nat_sx %>% dplyr::select(year, sex, age_group, rate), by = c("year","sex","age_group")) %>%
+    group_by(region, year) %>% summarise(E_age = sum(pop * rate), pop_age = sum(pop),
+      p2049 = sum(pop[age_group %in% c("20~29세","30~39세","40~49세")]) / sum(pop), .groups = "drop")
+} else {
+  E <- ap %>% inner_join(nat_a %>% dplyr::select(year, age_group, rate), by = c("year","age_group")) %>%
+    group_by(region, year) %>% summarise(E_age = sum(pop * rate), pop_age = sum(pop),
+      p2049 = sum(pop[age_group %in% c("20~29세","30~39세","40~49세")]) / sum(pop), .groups = "drop")
+}
+cat("standardisation:", STD, "\n")
 C <- C %>% left_join(E, by = c("region","year"))
 stopifnot(!any(is.na(C$E_age)), all(C$E_age > 0))
-cat(sprintf("E_age: sum %.1f vs cases %d (SIR %.3f); population check ratio %.3f-%.3f\n",
+cat(sprintf("E_std: sum %.1f vs cases %d (SIR %.3f); population check ratio %.3f-%.3f\n",
             sum(C$E_age), sum(C$cases), sum(C$cases)/sum(C$E_age), min(C$population/C$pop_age), max(C$population/C$pop_age)))
 # physicians per 1000 (ascertainment proxy) from the FBD canonical panel
 cp <- tryCatch(read.csv(file.path(CACHE, "physicians_count.csv"), check.names = FALSE, stringsAsFactors = FALSE, fileEncoding = "UTF-8"), error = function(e) NULL)

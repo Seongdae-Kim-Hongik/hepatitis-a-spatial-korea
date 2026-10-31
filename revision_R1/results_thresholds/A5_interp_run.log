@@ -1,8 +1,9 @@
-HAV revision R1 additional analyses - 2026-10-31 06:12:43 
+HAV revision R1 additional analyses - 2026-10-31 09:58:39 
 analysis frame: 1095 rows, 219 districts, 13992 cases
 graph: 223 districts with neighbours (of 229)
 idarea check: 0 of 219 districts differ from the archived index (index re-derived from this boundary order)
-E_age: sum 13999.7 vs cases 13992 (SIR 0.999); population check ratio 1.000-1.012
+standardisation: agesex 
+E_std: sum 13999.7 vs cases 13992 (SIR 0.999); population check ratio 1.000-1.012
 physicians: 1095 rows merged, 0 NA
 credible set as submitted: dairy_farm gw_household sewer_repair forest fiscal_indep 
 
@@ -11,57 +12,57 @@ credible set as submitted: dairy_farm gw_household sewer_repair forest fiscal_in
     covariate    IRR     lo     hi
    dairy_farm 1.0452 1.0053 1.0866
  gw_household 1.0781 1.0024 1.1581
- sewer_repair 0.9105 0.8301 0.9987
-       forest 0.8175 0.7393 0.9054
+ sewer_repair 0.9105 0.8301 0.9986
+       forest 0.8174 0.7393 0.9053
  fiscal_indep 0.8674 0.7958 0.9454
-  DIC WAIC moran_raw    p_raw moran_raw_queen_ref n_high n_low
- 5649 5662    0.2292 3.77e-08              0.2292     75    58
+  DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
+ 5649 5661    0.2286 4.061e-08              0.2286     75    58
 
 [A1_offset_pop] offset population without +1  (27 covariates, offset log(population))
    0.0 min
     covariate    IRR     lo     hi
    dairy_farm 1.0452 1.0053 1.0866
- gw_household 1.0780 1.0024 1.1580
- sewer_repair 0.9104 0.8301 0.9986
-       forest 0.8175 0.7394 0.9053
- fiscal_indep 0.8674 0.7958 0.9453
+ gw_household 1.0780 1.0023 1.1582
+ sewer_repair 0.9104 0.8300 0.9987
+       forest 0.8175 0.7393 0.9055
+ fiscal_indep 0.8674 0.7957 0.9454
   DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
- 5649 5662    0.2286 4.103e-08              0.2286     75    58
+ 5648 5660    0.2277 4.612e-08              0.2277     75    58
 
 [A2_agestd_offset] indirect age-standardised expected counts as offset  (27 covariates, offset log(E_age))
    0.0 min
     covariate    IRR     lo     hi
-   dairy_farm 1.0464 1.0072 1.0870
- gw_household 1.0807 1.0056 1.1601
- sewer_repair 0.9129 0.8343 0.9989
-       forest 0.8249 0.7470 0.9124
- fiscal_indep 0.8717 0.8012 0.9483
+   dairy_farm 1.0463 1.0071 1.0869
+ gw_household 1.0807 1.0056 1.1600
+ sewer_repair 0.9128 0.8342 0.9988
+       forest 0.8251 0.7472 0.9126
+ fiscal_indep 0.8720 0.8015 0.9487
   DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
- 5608 5621    0.1693 4.154e-05              0.1693     75    58
+ 5608 5621    0.1693 4.156e-05              0.1693     74    58
 
 [A3_p2049] proportion aged 20-49 added  (28 covariates, offset log(population))
    0.0 min
     covariate    IRR     lo     hi
-   dairy_farm 1.0446 1.0046 1.0860
-       forest 0.8155 0.7373 0.9034
- fiscal_indep 0.8781 0.8041 0.9590
-    sex_ratio 1.0757 1.0034 1.1541
+   dairy_farm 1.0445 1.0045 1.0860
+       forest 0.8155 0.7372 0.9034
+ fiscal_indep 0.8781 0.8041 0.9591
+    sex_ratio 1.0758 1.0034 1.1542
   DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
- 5648 5661    0.2103 4.469e-07              0.2103     75    59
+ 5649 5661    0.2111 4.086e-07              0.2111     75    59
 
 [A4_rescaled] rescaled covariates (original forms) + log population density  (28 covariates, offset log(population))
    0.0 min
     covariate    IRR     lo     hi
- fiscal_indep 0.8889 0.8177 0.9665
-    sex_ratio 1.0893 1.0071 1.1793
+ fiscal_indep 0.8888 0.8175 0.9665
+    sex_ratio 1.0894 1.0071 1.1796
   DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
- 5653 5668    0.2025 9.181e-07              0.2025     82    60
+ 5646 5662    0.1981 1.557e-06              0.1981     81    60
 
 [A5_rescaled_agestd] rescaled + age-standardised offset (candidate revised principal)  (28 covariates, offset log(E_age))
    0.0 min
-    covariate    IRR     lo    hi
- fiscal_indep 0.8852 0.8154 0.961
+    covariate    IRR     lo     hi
+ fiscal_indep 0.8854 0.8156 0.9613
   DIC WAIC moran_raw     p_raw moran_raw_queen_ref n_high n_low
- 5610 5626    0.1498 0.0002505              0.1498     83    60
+ 5609 5625    0.1501 0.0002441              0.1501     82    60
 
 HAV_ARMS=A5: stopped after A5
